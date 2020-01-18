@@ -10,9 +10,9 @@
 }
 
 .slide-one {
-    background-image: url("/slide1.png");
+    background-image: url(./slide1.png);
 }
 
 .slide-two {
-    background-image: url("/slide2.png");
+    background-image: url(./slide2.png);
 }
