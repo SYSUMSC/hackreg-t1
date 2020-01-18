@@ -1,0 +1,18 @@
+.mainpage-carousel {
+    overflow-y: hidden;
+}
+
+.slide-container {
+    background-position: center;
+    background-attachment: local;
+    /* 70px is the height of header */
+    height: calc(100vh - 70px);
+}
+
+.slide-one {
+    background-image: url("/slide1.png");
+}
+
+.slide-two {
+    background-image: url("/slide2.png");
+}
