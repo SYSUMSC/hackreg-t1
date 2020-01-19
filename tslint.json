@@ -4,7 +4,8 @@
     "member-ordering": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": false
+    "quotemark": false,
+    "interface-over-type-literal": false
   },
   "linterOptions": {
     "exclude": [

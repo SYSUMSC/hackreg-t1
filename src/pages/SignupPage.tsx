@@ -5,8 +5,7 @@ import Footer from '../footer/Footer';
 class SignupPage extends PureComponent {
     public render() {
         return (<>
-            <Header />
-            <Footer />
+            
         </>);
     }
 }

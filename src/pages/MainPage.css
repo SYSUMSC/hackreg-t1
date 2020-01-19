@@ -5,6 +5,7 @@
 .slide-container {
     background-position: center;
     background-attachment: local;
+    background-repeat: no-repeat;
     /* 70px is the height of header */
     height: calc(100vh - 70px);
 }

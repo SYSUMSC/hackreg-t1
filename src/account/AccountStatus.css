@@ -1,0 +1,11 @@
+.account-status-container {
+    word-spacing: 0.3rem;
+}
+
+.clickable-text {
+    cursor: pointer;
+}
+
+.clickable-text:hover {
+    color: #18BC9C;
+}
