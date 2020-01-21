@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import AccountModal from './AccountModal';
+import FormModal from '../modal/FormModal';
 
-type IProp =  {
+type IProp = {
     shown: boolean;
     onHide: () => void;
 };
 
-const LoginModal: FunctionComponent<IProp> = ({ shown, onHide }) => (
-    <AccountModal shown={shown} onHide={onHide} title="登陆" form={
+const LoginForm: FunctionComponent<IProp> = ({ shown, onHide }) => (
+    <FormModal shown={shown} onHide={onHide} title="登陆">
         <Form>
             <Form.Group>
                 <Form.Label>邮箱地址</Form.Label>
@@ -20,9 +19,9 @@ const LoginModal: FunctionComponent<IProp> = ({ shown, onHide }) => (
                 <Form.Label>密码</Form.Label>
                 <Form.Control type="password" placeholder="输入你的密码" />
             </Form.Group>
-            <Button variant="primary" type="submit" className="float-right">登陆</Button>
+            <Button variant="outline-primary" type="submit">忘记密码</Button>
+            <Button variant="outline-primary" type="submit" className="float-right">登陆</Button>
         </Form>
-    } />
-);
+    </FormModal>);
 
-export default LoginModal;
+export default LoginForm;

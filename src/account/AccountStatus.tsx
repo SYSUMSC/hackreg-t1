@@ -1,43 +1,34 @@
-import React, { Component } from 'react';
-import Cookies from 'js-cookie';
-import RegisterModal from './RegisterModal';
+import React, { FunctionComponent, useState } from 'react';
+import RegisterForm from './RegisterForm';
+import LoginForm from './LoginForm';
+import { EmailContext } from '../App';
 import './AccountStatus.css';
-import LoginModal from './LoginModal';
 
-type IState = {
-    registerModalShown: boolean;
-    loginModalShown: boolean;
-};
-
-class AccountStatus extends Component<{}, IState> {
-    public state: IState = {
-        registerModalShown: false,
-        loginModalShown: false,
-    };
-
-    public render() {
-        if (Cookies.get('Authorization')) {
-            return (<span>
-                {/* TODO: ID here */}登出
-            </span>);
-        } else {
-            return (<span className="account-status-container">
-                <RegisterModal
-                    shown={this.state.registerModalShown}
-                    onHide={() => this.setState({ registerModalShown: false })} />
-                <LoginModal
-                    shown={this.state.loginModalShown}
-                    onHide={() => this.setState({ loginModalShown: false })} />
-                <span className="clickable-text" onClick={() => this.setState({ loginModalShown: true })}>
-                    登陆
-                </span>
-                <span> / </span>
-                <span className="clickable-text" onClick={() => this.setState({ registerModalShown: true })}>
-                    注册
-                </span>
-            </span>);
-        }
+const AccountStatus: FunctionComponent = () => {
+    const { state } = React.useContext(EmailContext);
+    const [regFormShown, toggleRegForm] = useState(false);
+    const [loginFormShown, toggleLoginForm] = useState(false);
+    if (state) {
+        return (<>
+            {state}，登出 {/* TODO: logout */}
+        </>);
+    } else {
+        return (<>
+            <RegisterForm
+                shown={regFormShown}
+                onHide={() => toggleRegForm(false)} />
+            <LoginForm
+                shown={loginFormShown}
+                onHide={() => toggleLoginForm(false)} />
+            <span className="clickable-text" onClick={() => toggleLoginForm(true)}>
+                登陆
+            </span>
+            &nbsp;/&nbsp;
+            <span className="clickable-text" onClick={() => toggleRegForm(true)}>
+                注册
+            </span>
+        </>);
     }
-}
+};
 
 export default AccountStatus;
