@@ -22,7 +22,7 @@ function createCtx<A>(defaultValue: A) {
     return [ctx, Provider] as const;
 }
 
-const [ctx, EmailProvider] = createCtx<string | undefined>(Cookies.get('email'));
+const [ctx, EmailProvider] = createCtx<string | undefined>('test@gmail.com');
 
 export const EmailContext = ctx;
 

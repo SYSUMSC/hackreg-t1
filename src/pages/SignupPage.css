@@ -1,8 +1,12 @@
 .form-container {
-    padding: auto 0;
     max-width: 62.5rem;
+    min-height: calc(100vh - 70.38px - 41.19px - 1rem); /* TODO: can we have a better solution? */
 }
 
-.card-add-member {
-    cursor: pointer;
+.form-container>.row {
+    margin: 1rem 0;
+}
+
+.form-container .btn-group {
+    width: 100%;
 }

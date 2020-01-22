@@ -1,5 +1,8 @@
 .clickable-text {
     cursor: pointer;
+    display: inline-block;
+    padding: 0 0.3rem;
+    
 }
 
 .clickable-text:hover {

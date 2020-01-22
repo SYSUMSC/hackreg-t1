@@ -21,11 +21,11 @@ const Header: FunctionComponent = () => {
                 <Nav.Link as={Link} to="/description">介绍</Nav.Link>
                 <Nav.Link as={Link} to="/signup">报名</Nav.Link>
                 {
-                    !state ? <></> : <>
+                    !state ? null : (<>
                         {/* TODO */}
                         <SubmitWorkForm shown={submitFormShown} onHide={() => toggleSubmitForm(false)} />
                         <Nav.Link onClick={() => toggleSubmitForm(true)}>提交</Nav.Link>
-                    </>
+                    </>)
                 }
             </Nav>
             <Nav>
@@ -34,7 +34,7 @@ const Header: FunctionComponent = () => {
                 </Navbar.Text>
             </Nav>
         </Navbar.Collapse>
-    </Navbar>)
+    </Navbar>);
 };
 
 export default Header;
