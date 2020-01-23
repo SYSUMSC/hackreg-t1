@@ -1,17 +1,16 @@
+import { Form as FormikForm, Formik } from 'formik';
 import React, { FunctionComponent } from 'react';
-import { Formik, Form as FormikForm } from 'formik';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import * as Yup from 'yup';
 import { EmailContext } from '../App';
-import MemberInfoAccordion from './MemberInfoAccordion';
-import TeamInfo from './TeamInfo';
+import MemberInfoAccordion from './MemberInfoCard';
 import './SignupPage.css';
+import TeamInfo from './TeamInfo';
 
 export type MemberFormValues = {
     name: string,

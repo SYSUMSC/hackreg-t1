@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
-import { Route, Switch, HashRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import MainPage from './pages/MainPage';
-import DescriptionPage from './pages/DescriptionPage';
-import SignupPage from './pages/SignupPage';
-import Header from './header/Header';
+import React, { FunctionComponent } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Footer from './footer/Footer';
+import Header from './header/Header';
+import DescriptionPage from './pages/DescriptionPage';
+import MainPage from './pages/MainPage';
+import SignupPage from './pages/SignupPage';
 
 function createCtx<A>(defaultValue: A) {
     type UpdateType = React.Dispatch<React.SetStateAction<typeof defaultValue>>;

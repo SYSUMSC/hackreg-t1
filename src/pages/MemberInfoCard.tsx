@@ -1,13 +1,13 @@
+import { FormikErrors, useFormikContext } from 'formik';
 import React, { FunctionComponent } from 'react';
-import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
+import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Alert from 'react-bootstrap/Alert';
-import { MemberFormValues, SignupFormValues } from './SignupPage';
-import { FormikErrors, useFormikContext } from 'formik';
 import './MemberInfoAccordion.css';
+import { MemberFormValues, SignupFormValues } from './SignupPage';
 
 const FormItem: FunctionComponent<{ children: React.ReactNode, title: string, controlId: string, colCss?: string }> =
     ({ children, title, controlId, colCss }) => (<Form.Group as={Row} controlId={controlId}>

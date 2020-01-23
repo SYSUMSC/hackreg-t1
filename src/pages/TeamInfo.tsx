@@ -1,6 +1,6 @@
+import { useFormikContext } from 'formik';
 import React, { FunctionComponent } from 'react';
 import Form from 'react-bootstrap/Form';
-import { useFormikContext } from 'formik';
 import { SignupFormValues } from './SignupPage';
 
 const TeamInfo: FunctionComponent = () => {
