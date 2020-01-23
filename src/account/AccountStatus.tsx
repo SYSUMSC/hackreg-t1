@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
-import RegisterForm from './RegisterForm';
-import LoginForm from './LoginForm';
 import { EmailContext } from '../App';
 import './AccountStatus.css';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 const AccountStatus: FunctionComponent = () => {
     const { state } = React.useContext(EmailContext);

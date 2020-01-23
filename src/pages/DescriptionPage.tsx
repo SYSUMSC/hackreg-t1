@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-import whatIsHackathon from './what_is_hackathon.png';
-import microsoft from './microsoft.png';
 import './DescriptionPage.css';
+import microsoft from './microsoft.png';
+import whatIsHackathon from './what_is_hackathon.png';
 
 // TODO: need documentions!
 const DescriptionPage: FunctionComponent = () => (<>

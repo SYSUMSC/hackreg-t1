@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
 import './Footer.css';
 
 const Footer: FunctionComponent = () => (<Container as={Navbar} className="footer-container" fluid={true} sticky="bottom" bg="primary" variant="dark">

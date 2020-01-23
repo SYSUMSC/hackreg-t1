@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import AccountStatus from '../account/AccountStatus';
 import { EmailContext } from '../App';
