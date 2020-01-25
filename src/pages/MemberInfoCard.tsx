@@ -6,7 +6,6 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import './MemberInfoAccordion.css';
 import { MemberFormValues, SignupFormValues } from './SignupPage';
 
 const FormItem: FunctionComponent<{ children: React.ReactNode, title: string, controlId: string, colCss?: string }> =
@@ -23,7 +22,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
     const touchedItems = touched.memberInfo ? touched.memberInfo[props.index] : undefined;
     const erroredItems = errors.memberInfo ?
         errors.memberInfo[props.index] as FormikErrors<MemberFormValues> : undefined;
-    return (<Card> {/* TODO: 1) use index for eventKey & radio name 2) check for the uniqueness of team leader */}
+    return (<Card>
         <Accordion.Toggle as={Card.Header} eventKey={`memberName-${props.index}`}>
             {memberInfo.name} <span className="text-muted">{memberInfo.captain ? '队长' : '队员'}</span>
         </Accordion.Toggle>
@@ -34,10 +33,10 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                     <Form.Control
                         type="text"
                         isValid={touchedItems?.name && !erroredItems?.name}
-                        maxLength={24}
+                        maxLength={12}
                         {...getFieldProps(`memberInfo[${props.index}].name`)}
                     />
-                    <Form.Text className="text-muted font-weight-light">长度不得超过12个汉字（24个英文字符）</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">长度不得超过12个字</Form.Text>
                 </FormItem>
                 <FormItem title="性别" colCss="radio-container" controlId={`memberInfo[${props.index}].gender`}>
                     <Form.Control
@@ -53,7 +52,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                     <Form.Control
                         type="email"
                         isValid={touchedItems?.email && !erroredItems?.email}
-                        maxLength={30}
+                        maxLength={50}
                         {...getFieldProps(`memberInfo[${props.index}].email`)}
                     />
                     <Form.Text className="text-muted font-weight-light">重要信息，请确保填写正确</Form.Text>
@@ -86,10 +85,10 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                     <Form.Control
                         type="text"
                         isValid={touchedItems?.school && !erroredItems?.school}
-                        maxLength={30}
+                        maxLength={15}
                         {...getFieldProps(`memberInfo[${props.index}].school`)}
                     />
-                    <Form.Text className="text-muted font-weight-light">建议格式：城市名+学校名，不要写缩写</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">建议格式：城市名+学校名，不要写缩写，长度不得超过15字</Form.Text>
                 </FormItem>
                 <FormItem title="学历" controlId={`memberInfo[${props.index}].education`}>
                     <Form.Control
@@ -100,7 +99,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                         <option value="1">研究生</option>
                         <option value="2">其他</option>
                     </Form.Control>
-                    <Form.Text className="text-muted font-weight-light">（？）</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">正在读某某生的，也可选对应的那一项</Form.Text>
                 </FormItem>
                 <FormItem title="年级" controlId={`memberInfo[${props.index}].grade`}>
                     <Form.Control
@@ -109,7 +108,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                         maxLength={10}
                         {...getFieldProps(`memberInfo[${props.index}].grade`)}
                     />
-                    <Form.Text className="text-muted font-weight-light">（？）</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">长度不得超过10个字</Form.Text>
                 </FormItem>
                 <FormItem title="专业" controlId={`memberInfo[${props.index}].profession`}>
                     <Form.Control
@@ -118,7 +117,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                         maxLength={20}
                         {...getFieldProps(`memberInfo[${props.index}].profession`)}
                     />
-                    <Form.Text className="text-muted font-weight-light">（？）</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">填写现在正在就读的专业的名称，长度不得超过20个字</Form.Text>
                 </FormItem>
                 <FormItem title="个人经历" controlId={`memberInfo[${props.index}].experience`}>
                     <Form.Control
@@ -128,7 +127,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
                         maxLength={100}
                         {...getFieldProps(`memberInfo[${props.index}].experience`)}
                     />
-                    <Form.Text className="text-muted font-weight-light">吹吹水介绍一下自己，长度不得超过50个汉字（100个英文字符）</Form.Text>
+                    <Form.Text className="text-muted font-weight-light">吹吹水介绍一下自己，长度不得超过100个汉字</Form.Text>
                 </FormItem>
             </Card.Body>
         </Accordion.Collapse>

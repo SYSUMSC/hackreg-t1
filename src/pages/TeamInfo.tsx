@@ -12,11 +12,11 @@ const TeamInfo: FunctionComponent = () => {
             <Form.Control
                 type="text" // TODO: should add isInvalid?
                 isValid={touched.teamInfo?.name && !errors.teamInfo?.name}
-                maxLength={24}
+                maxLength={20}
                 {...getFieldProps(`teamInfo.name`)}
             />
             <Form.Text className="text-muted font-weight-light">
-                长度不得超过10个汉字（20个英文字符）
+                长度不得超过20个字
             </Form.Text>
         </Form.Group>
         <Form.Group controlId="teamInfo.description">
@@ -25,11 +25,11 @@ const TeamInfo: FunctionComponent = () => {
                 as="textarea"
                 rows="5"
                 isValid={touched.teamInfo?.description && !errors.teamInfo?.description}
-                maxLength={100}
+                maxLength={50}
                 {...getFieldProps(`teamInfo.description`)}
             />
             <Form.Text className="text-muted font-weight-light">
-                长度不得超过50个汉字（100个英文字符）
+                长度不得超过50个字
             </Form.Text>
         </Form.Group>
     </>);
