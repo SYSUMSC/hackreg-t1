@@ -7,22 +7,29 @@ import DescriptionPage from './pages/DescriptionPage';
 import MainPage from './pages/MainPage';
 import SignupPage from './pages/SignupPage';
 
+function checkEmail(): string | null {
+    if (Cookies.get('Authorization')) {
+        return localStorage.getItem('email') ;
+    } else {
+        return null;
+    }
+}
+
 function createCtx<A>(defaultValue: A) {
     type UpdateType = React.Dispatch<React.SetStateAction<typeof defaultValue>>;
     const defaultUpdateFunc: UpdateType = () => defaultValue;
-    // tslint:disable-next-line: no-shadowed-variable
-    const ctx = React.createContext({
+    const stateCtx = React.createContext({
         state: defaultValue,
         update: defaultUpdateFunc,
     });
     function Provider(props: React.PropsWithChildren<{}>) {
         const [state, update] = React.useState(defaultValue);
-        return <ctx.Provider value={{ state, update }} {...props} />;
+        return <stateCtx.Provider value={{ state, update }} {...props} />;
     }
-    return [ctx, Provider] as const;
+    return [stateCtx, Provider] as const;
 }
 
-const [ctx, EmailProvider] = createCtx<string | undefined>('test@gmail.com');
+const [ctx, EmailProvider] = createCtx<string | null>(checkEmail());
 
 export const EmailContext = ctx;
 
