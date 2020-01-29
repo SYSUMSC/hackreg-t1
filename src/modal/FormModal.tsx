@@ -9,7 +9,7 @@ type IProp = {
 };
 
 const FormModal: FunctionComponent<IProp> = ({ title, children, shown, onHide }) => (
-    <Modal show={shown} onHide={onHide}>
+    <Modal show={shown} onHide={onHide} backdrop="static">
         <Modal.Header closeButton={true}>
             <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

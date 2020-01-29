@@ -1,12 +1,53 @@
-.form-container {
+.signup-page-container {
     max-width: 62.5rem;
-    min-height: calc(100vh - 70.38px - 41.19px - 1rem); /* TODO: can we have a better solution? */
 }
 
-.form-container>.row {
+.content-fit-viewport {
+    min-height: calc(100vh - 70.38px - 117.19px);
+}
+
+@media only screen and (min-width: 720px) {
+    /* 720px = md */
+    .content-fit-viewport {
+        min-height: calc(100vh - 70.38px - 41.19px);
+    }
+}
+
+.signup-page-container>.row {
     margin: 1rem 0;
 }
 
-.form-container .btn-group {
+.signup-page-container>.row:first-child {
+    margin-top: 0;
+    padding-top: 1rem;
+    /* FIXME: this is too hacky */
+}
+
+.signup-page-container .btn-group {
     width: 100%;
+}
+
+.spinner-container {
+    margin: 0 auto;
+    position: relative;
+}
+
+.content-spinner {
+    position: absolute;
+    left: calc(50% - 3rem);
+    top: calc(40% - 3rem);
+    width: 6rem !important;
+    height: 6rem !important;
+}
+
+.content-error-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.signup-alert {
+    margin-bottom: 0 !important;
 }

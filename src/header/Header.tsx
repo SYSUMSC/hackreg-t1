@@ -3,11 +3,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import AccountStatus from '../account/AccountStatus';
-import { EmailContext } from '../App';
+import { LoginEmailContext } from '../App';
 import SubmitWorkForm from './SubmitWorkForm';
 
 const Header: FunctionComponent = () => {
-    const { state } = React.useContext(EmailContext);
+    const { state } = React.useContext(LoginEmailContext);
     const [submitFormShown, toggleSubmitForm] = useState(false);
     return (<Navbar collapseOnSelect={true} expand="sm" bg="primary" variant="dark">
         <Navbar.Brand>

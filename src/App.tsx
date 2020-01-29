@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import React, { FunctionComponent } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Footer from './footer/Footer';
@@ -6,14 +5,6 @@ import Header from './header/Header';
 import DescriptionPage from './pages/DescriptionPage';
 import MainPage from './pages/MainPage';
 import SignupPage from './pages/SignupPage';
-
-function checkEmail(): string | null {
-    if (Cookies.get('Authorization')) {
-        return localStorage.getItem('email') ;
-    } else {
-        return null;
-    }
-}
 
 function createCtx<A>(defaultValue: A) {
     type UpdateType = React.Dispatch<React.SetStateAction<typeof defaultValue>>;
@@ -29,9 +20,29 @@ function createCtx<A>(defaultValue: A) {
     return [stateCtx, Provider] as const;
 }
 
-const [ctx, EmailProvider] = createCtx<string | null>(checkEmail());
+export type UserEmail = {
+    email: string;
+    expireTime: number;
+};
 
-export const EmailContext = ctx;
+function resolveEmail(): string | null {
+    const item = localStorage.getItem('user');
+    if (item) {
+        const userEmail: UserEmail = JSON.parse(item);
+        if (new Date().getTime() > userEmail.expireTime) {
+            localStorage.clear();
+            return null;
+        } else {
+            return userEmail.email;
+        }
+    } else {
+        return null;
+    }
+}
+
+const [ctx, EmailProvider] = createCtx<string | null>(resolveEmail());
+
+export const LoginEmailContext = ctx;
 
 const App: FunctionComponent = () => (<EmailProvider>
     <HashRouter>

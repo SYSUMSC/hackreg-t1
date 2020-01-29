@@ -134,7 +134,7 @@ const MemberInfoCard: FunctionComponent<{ index: number }> = (props) => {
     </Card>);
 };
 
-const MemberInfoAccordion: FunctionComponent = () => {
+const MemberInfo: FunctionComponent = () => {
     const { values } = useFormikContext<SignupFormValues>();
     const cards = values.memberInfo.map((_, index) => <MemberInfoCard index={index} />);
     return (<>
@@ -148,4 +148,4 @@ const MemberInfoAccordion: FunctionComponent = () => {
     </>);
 };
 
-export default MemberInfoAccordion;
+export default MemberInfo;
