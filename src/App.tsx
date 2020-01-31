@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Footer from './footer/Footer';
 import Header from './header/Header';
-import DescriptionPage from './pages/DescriptionPage';
-import MainPage from './pages/MainPage';
-import SignupPage from './pages/SignupPage';
+import DescriptionPage from './pages/description/DescriptionPage';
+import MainPage from './pages/main/MainPage';
+import SignupPage from './pages/signup/SignupPage';
 
 function createCtx<A>(defaultValue: A) {
     type UpdateType = React.Dispatch<React.SetStateAction<typeof defaultValue>>;

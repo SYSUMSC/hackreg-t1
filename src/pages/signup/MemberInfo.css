@@ -1,0 +1,7 @@
+.card-add-member {
+    cursor: pointer;
+}
+
+.card-add-member:hover {
+    text-decoration: underline;
+}

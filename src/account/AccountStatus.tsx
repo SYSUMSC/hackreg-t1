@@ -78,7 +78,7 @@ const AccountStatus: FunctionComponent = () => {
             <span className="clickable-text" onClick={() => toggleLoginForm(true)}>
                 登陆
             </span>
-            /
+            &nbsp;/&nbsp;
             <span className="clickable-text" onClick={() => toggleRegForm(true)}>
                 注册
             </span>
