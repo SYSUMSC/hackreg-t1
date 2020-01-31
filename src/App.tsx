@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Footer from './footer/Footer';
 import Header from './header/Header';
@@ -14,7 +14,7 @@ function createCtx<A>(defaultValue: A) {
         update: defaultUpdateFunc,
     });
     function Provider(props: React.PropsWithChildren<{}>) {
-        const [state, update] = React.useState(defaultValue);
+        const [state, update] = useState(defaultValue);
         return <stateCtx.Provider value={{ state, update }} {...props} />;
     }
     return [stateCtx, Provider] as const;

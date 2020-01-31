@@ -1,5 +1,5 @@
 import { FormikHelpers, useFormik } from 'formik';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -177,9 +177,9 @@ const emptyFormData: FormData = { confirmed: false, form: { teamInfo: { name: ''
 
 const SignupPage: FunctionComponent = () => {
     const { state } = React.useContext(LoginEmailContext);
-    const [errorMsg, updateErrorMsg] = React.useState<string | null>(null); // for fetching form data
-    const [erroredAction, updateErroredAction] = React.useState<ErroredAction>(null); // for canceling, submitting and confirming
-    const [initialFormData, updateInitialFormData] = React.useState<FormData | null>(null);
+    const [errorMsg, updateErrorMsg] = useState<string | null>(null); // for fetching form data
+    const [erroredAction, updateErroredAction] = useState<ErroredAction>(null); // for canceling, submitting and confirming
+    const [initialFormData, updateInitialFormData] = useState<FormData | null>(null);
     const formik = useFormik<FormData>({
         initialValues: initialFormData ?? emptyFormData,
         validationSchema,

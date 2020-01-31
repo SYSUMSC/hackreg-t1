@@ -12,7 +12,7 @@ import { FormData, MemberFormValues } from './SignupPage';
 const FormItem: FunctionComponent<{ children: React.ReactNode, title: string, controlId: string, colCss?: string }> =
     ({ children, title, controlId, colCss }) => (<Form.Group as={Row} controlId={controlId}>
         <Form.Label column={true} sm={2} className="text-left text-sm-right">{title}</Form.Label>
-        <Col sm={10} className={colCss ? colCss : ""}>
+        <Col sm={10} {...(colCss && {className: colCss})}>
             {children}
         </Col>
     </Form.Group>);

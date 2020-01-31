@@ -1,5 +1,5 @@
 import { FormikHelpers } from 'formik';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import * as Yup from 'yup';
 import { LoginEmailContext, UserEmail } from '../App';
 import FormModal from '../modal/FormModal';
@@ -56,7 +56,7 @@ const handleLoginAndReg: LoginAndRegHandler = (mode, values, helper, onHide, upd
 };
 
 const AccountStatus: FunctionComponent = () => {
-    const { state, update } = React.useContext(LoginEmailContext);
+    const { state, update } = useContext(LoginEmailContext);
     const [regFormShown, toggleRegForm] = useState(false);
     const [loginFormShown, toggleLoginForm] = useState(false);
     if (state) {
