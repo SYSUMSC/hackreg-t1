@@ -18,14 +18,13 @@ const FormItem: FunctionComponent<{ children: React.ReactNode, title: string, co
     </Form.Group>);
 
 const MemberInfoCard: FunctionComponent<{ formik: FormikProps<FormData>, index: number }> = ({ formik, index }) => {
-    const { initialValues, touched, errors, getFieldProps, isSubmitting } = formik;
-    const memberInfo = initialValues.form.memberInfo[index];
+    const { values, touched, errors, getFieldProps, isSubmitting } = formik;
     const touchedItems = touched?.form?.memberInfo ? touched.form.memberInfo[index] : undefined;
     const erroredItems = errors?.form?.memberInfo ?
         errors.form?.memberInfo[index] as FormikErrors<MemberFormValues> : undefined;
     return (<Card {...(!!erroredItems && !!touchedItems && { border: 'danger' })} >
         <Accordion.Toggle as={Card.Header} eventKey={`form.memberName-${index}`}>
-            {memberInfo.name}&nbsp;&nbsp;<span className="text-muted">{memberInfo.captain ? '队长' : '队员'}</span>
+            {values.form.memberInfo[index].name}&nbsp;&nbsp;<span className="text-muted">{values.form.memberInfo[index].captain ? '队长' : '队员'}</span>
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={`form.memberName-${index}`}>
             <Card.Body>
@@ -166,23 +165,28 @@ const MemberInfo: FunctionComponent<{ formik: FormikProps<FormData> }> = ({ form
                     key="addMember"
                     {...(!!formik.errors?.form?.memberInfo && formik.touched?.form?.memberInfo && memberInfo.length === 0 && { border: 'danger' })}
                 >
-                    <Card.Header className="card-add-member" onClick={() => {
-                        const newValues = Object.assign({}, formik.values);
-                        newValues.form.memberInfo.push({
-                            name: '',
-                            gender: '0',
-                            captain: memberInfo.length === 0,
-                            email: '',
-                            phone: '',
-                            size: '0',
-                            school: '',
-                            education: '0',
-                            grade: '',
-                            profession: '',
-                            experience: '',
-                        });
-                        formik.setValues(newValues);
-                    }}>
+                    <Card.Header
+                        className="card-add-member"
+                        onClick={() => {
+                            if (!formik.isSubmitting && !formik.initialValues.confirmed) {
+                                const newValues = Object.assign({}, formik.values);
+                                newValues.form.memberInfo.push({
+                                    name: '',
+                                    gender: '0',
+                                    captain: memberInfo.length === 0,
+                                    email: '',
+                                    phone: '',
+                                    size: '0',
+                                    school: '',
+                                    education: '0',
+                                    grade: '',
+                                    profession: '',
+                                    experience: '',
+                                });
+                                formik.setValues(newValues);
+                            }
+                        }}
+                    >
                         添加队员...
                     </Card.Header>
                 </Card>

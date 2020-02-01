@@ -45,14 +45,14 @@ export type FormData = {
 // Reference: https://www.hkepc.com/forum/viewthread.php?fid=26&tid=2190792 & https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
 const phoneRegex = /^1[0-9]{10}$|^[569][0-9]{7}$|^(?:\+?86)?1(?:3\d{3}|5[^4\D]\d{2}|8\d{3}|7(?:[01356789]\d{2}|4(?:0\d|1[0-2]|9\d))|9[01356789]\d{2}|6[2567]\d{2}|4[579]\d{2})\d{6}$/;
 
-const validationSchema = Yup.object({
+const validationSchema = Yup.object<FormData>({
     confirmed: Yup.boolean(),
-    form: Yup.object({
+    form: Yup.object<SignupFormValues>({
         teamInfo: Yup.object({
             name: Yup.string().max(20).required(),
             description: Yup.string().max(50).required(),
         }),
-        memberInfo: Yup.array(Yup.object({
+        memberInfo: Yup.array(Yup.object<MemberFormValues>({
             name: Yup.string().max(20).required(),
             gender: Yup.string().matches(/^[0-2]$/).required(),
             captain: Yup.bool().required(),
@@ -89,6 +89,7 @@ const getSubmitHandler = (updateInitialFormData: React.Dispatch<React.SetStateAc
             if (response.ok) {
                 formikHelpers.setSubmitting(false);
                 updateInitialFormData(values);
+                // TODO: add a alert informing the success of operation
                 return null;
             } else {
                 return response.json();

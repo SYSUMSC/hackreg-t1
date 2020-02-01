@@ -41,6 +41,8 @@ const RegisterForm: FunctionComponent<IProp> = ({ validationSchema, onSubmit }) 
                 />
                 <Form.Text className="text-muted font-weight-light">长度在8到30字之间，只能包含英文字母、数字或者一些特殊符号如#@等</Form.Text>
             </Form.Group>
+            {
+            }
             <Form.Text className="font-weight-light text-danger">
                 {
                     formik.submitCount > 0 && !formik.isSubmitting && !!formik.errors.password ? (

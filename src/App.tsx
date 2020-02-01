@@ -40,27 +40,29 @@ function resolveEmail(): string | null {
     }
 }
 
-const [ctx, EmailProvider] = createCtx<string | null>(resolveEmail());
+const [ctx, LoginEmailProvider] = createCtx<string | null>(resolveEmail());
 
 export const LoginEmailContext = ctx;
 
-const App: FunctionComponent = () => (<EmailProvider>
-    <HashRouter>
-        <Header />
-        <Switch>
-            <Route path="/description">
-                <DescriptionPage />
-                <Footer />
-            </Route>
-            <Route path="/signup">
-                <SignupPage />
-                <Footer />
-            </Route>
-            <Route path="/">
-                <MainPage />
-            </Route>
-        </Switch>
-    </HashRouter>
-</EmailProvider>);
+const App: FunctionComponent = () => (<>
+    <LoginEmailProvider>
+        <HashRouter>
+            <Header />
+            <Switch>
+                <Route path="/description">
+                    <DescriptionPage />
+                    <Footer />
+                </Route>
+                <Route path="/signup">
+                    <SignupPage />
+                    <Footer />
+                </Route>
+                <Route path="/">
+                    <MainPage />
+                </Route>
+            </Switch>
+        </HashRouter>
+    </LoginEmailProvider>
+</>);
 
 export default App;

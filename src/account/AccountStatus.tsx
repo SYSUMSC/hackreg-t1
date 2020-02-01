@@ -1,11 +1,12 @@
 import { FormikHelpers } from 'formik';
-import React, { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import * as Yup from 'yup';
 import { LoginEmailContext, UserEmail } from '../App';
-import FormModal from '../modal/FormModal';
+import withModal from '../shared/FormModal';
 import './AccountStatus.css';
 import LoginForm from './LoginForm';
 import LogoutButton from './LogoutButton';
+import PasswordResetForm from './PasswordResetForm';
 import RegisterForm from './RegisterForm';
 
 export type LoginAndRegFormValues = {
@@ -14,9 +15,8 @@ export type LoginAndRegFormValues = {
 };
 
 const validationSchema = Yup.object<LoginAndRegFormValues>({
-    // eslint-disable-next-line no-useless-escape
     email: Yup.string().max(30).matches(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/).required(),
-    password: Yup.string().min(8, '密码必须长于8位').max(30, '密码不能超过30位').required('密码不能为空'),
+    password: Yup.string().min(8).max(30).required(),
 });
 
 type LoginAndRegHandler =
@@ -50,36 +50,44 @@ const handleLoginAndReg: LoginAndRegHandler = (mode, values, helper, onHide, upd
             throw new Error(data.message);
         }
     }).catch((error) => {
-        helper.setFieldError('password', error.message);
+        helper.setFieldError('password', error.message); // FIXME: use Alert instead
         helper.setSubmitting(false);
     });
 };
 
 const AccountStatus: FunctionComponent = () => {
     const { state, update } = useContext(LoginEmailContext);
-    const [regFormShown, toggleRegForm] = useState(false);
+    const [registerFormShown, toggleRegisterForm] = useState(false);
     const [loginFormShown, toggleLoginForm] = useState(false);
+    const [passResetFormShown, togglePassResetForm] = useState(false);
     if (state) {
         return (<LogoutButton />);
     } else {
         return (<>
-            <FormModal shown={regFormShown} onHide={() => toggleRegForm(false)} title="注册">
+            {withModal('注册', registerFormShown, () => toggleRegisterForm(false), <>
                 <RegisterForm
                     validationSchema={validationSchema}
-                    onSubmit={(values, helpers) => handleLoginAndReg('register', values, helpers, () => toggleRegForm(false), update)}
+                    onSubmit={(values, helpers) => handleLoginAndReg('register', values, helpers, () => toggleRegisterForm(false), update)}
                 />
-            </FormModal>
-            <FormModal shown={loginFormShown} onHide={() => toggleLoginForm(false)} title="登陆">
+            </>)}
+            {withModal('登陆', loginFormShown, () => toggleLoginForm(false), <>
                 <LoginForm
                     validationSchema={validationSchema}
                     onSubmit={(values, helpers) => handleLoginAndReg('login', values, helpers, () => toggleLoginForm(false), update)}
+                    onResetPasswordButtonClicked={() => {
+                        toggleLoginForm(false);
+                        togglePassResetForm(true);
+                    }}
                 />
-            </FormModal>
+            </>)}
+            {withModal('重置密码', passResetFormShown, () => togglePassResetForm(false), <>
+                <PasswordResetForm />
+            </>)}
             <span className="clickable-text" onClick={() => toggleLoginForm(true)}>
                 登陆
             </span>
             &nbsp;/&nbsp;
-            <span className="clickable-text" onClick={() => toggleRegForm(true)}>
+            <span className="clickable-text" onClick={() => toggleRegisterForm(true)}>
                 注册
             </span>
         </>);

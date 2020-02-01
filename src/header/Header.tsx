@@ -1,18 +1,19 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import AccountStatus from '../account/AccountStatus';
 import { LoginEmailContext } from '../App';
+import withModal from '../shared/FormModal';
 import SubmitWorkForm from './SubmitWorkForm';
 
 const Header: FunctionComponent = () => {
-    const { state } = React.useContext(LoginEmailContext);
-    const [submitFormShown, toggleSubmitForm] = useState(false);
+    const { state } = useContext(LoginEmailContext);
+    const [submitModalShown, toggleSubmitModal] = useState(false);
     return (<Navbar collapseOnSelect={true} expand="sm" bg="primary" variant="dark">
         <Navbar.Brand>
             {/* TODO: logo img here */}
-            LOGO HERE
+            Hackathon 2020 (logo待定)
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="header-nav" />
         <Navbar.Collapse id="header-nav">
@@ -23,13 +24,15 @@ const Header: FunctionComponent = () => {
                 {
                     !state ? null : (<>
                         {/* TODO */}
-                        <SubmitWorkForm shown={submitFormShown} onHide={() => toggleSubmitForm(false)} />
-                        <Nav.Link onClick={() => toggleSubmitForm(true)}>提交</Nav.Link>
+                        {
+                            withModal('提交作品', submitModalShown, () => toggleSubmitModal(false), <SubmitWorkForm />)
+                        }
+                        <Nav.Link onClick={() => toggleSubmitModal(true)}>提交</Nav.Link>
                     </>)
                 }
             </Nav>
             <Nav>
-                <Navbar.Text>
+                <Navbar.Text>{/* TODO: should let accout status include the Navbar.Text */}
                     <AccountStatus />
                 </Navbar.Text>
             </Nav>

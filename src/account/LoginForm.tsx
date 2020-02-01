@@ -9,10 +9,10 @@ import { LoginAndRegFormValues } from './AccountStatus';
 type IProp = {
     validationSchema: Yup.ObjectSchema<LoginAndRegFormValues>;
     onSubmit: (values: LoginAndRegFormValues, formikHelpers: FormikHelpers<LoginAndRegFormValues>) => void;
+    onResetPasswordButtonClicked: () => void;
 };
 
-const LoginForm: FunctionComponent<IProp> = ({ validationSchema, onSubmit }) => {
-    // TODO: these codes can be improved further more
+const LoginForm: FunctionComponent<IProp> = ({ validationSchema, onSubmit, onResetPasswordButtonClicked }) => {
     const formik = useFormik<LoginAndRegFormValues>({
         initialValues: { email: '', password: '' },
         validationSchema,
@@ -44,31 +44,29 @@ const LoginForm: FunctionComponent<IProp> = ({ validationSchema, onSubmit }) => 
                 }
             </Form.Text>
         </Form.Group>
-        <Button variant="outline-primary" disabled={formik.isSubmitting}>忘记密码</Button> {/* TODO */}
+        <Button
+            variant="outline-primary"
+            disabled={formik.isSubmitting}
+            onClick={() => onResetPasswordButtonClicked()}
+        >
+            重置密码
+        </Button>
         {
-            formik.isSubmitting ? (<>
-                <Button
-                    variant="outline-primary"
-                    className="float-right"
-                    disabled={true}
-                >
+            <Button
+                variant="outline-primary"
+                className="float-right"
+                disabled={formik.isSubmitting}
+                type="submit"
+            >
+                {formik.isSubmitting ? (<>
                     <Spinner
                         as="span"
                         animation="border"
                         size="sm"
-                        role="status"
-                        aria-hidden="true"
                     />
-                </Button>
-            </>) : (<>
-                <Button
-                    variant="outline-primary"
-                    type="submit"
-                    className="float-right"
-                >
-                    登录
-                </Button>
-            </>)
+                </>) : '登录'
+                }
+            </Button>
         }
     </Form>);
 };
