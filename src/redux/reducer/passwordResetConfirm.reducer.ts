@@ -5,9 +5,8 @@ const initialState: PasswordResetConfirm = {
   connectStatus: { type: 'INITIAL' },
   modalShown: false,
   form: {
-    email: null,
-    token: null,
-    password: null
+    password: null,
+    confirmPassword: null
   }
 };
 
@@ -39,7 +38,7 @@ export default function passwordResetConfirm(
       return {
         ...state,
         connectStatus: { type: 'INITIAL' },
-        form: { email: null, token: null, password: null }
+        form: { password: null, confirmPassword: null }
       };
     case 'PASSWORD_RESET_CONFIRM_SHOW_MODAL':
       return {

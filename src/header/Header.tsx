@@ -1,7 +1,7 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import './Header.css';
 import { connect } from 'react-redux';
 import { StateType } from '../redux/Store';
@@ -9,13 +9,21 @@ import LoginFormModal from '../modal/LoginFormModal';
 import RegisterFormModal from '../modal/RegisterFormModal';
 import EmailAndLogoutButton from './EmailAndLogoutButton';
 import PasswordResetRequestFormModal from '../modal/PasswordResetRequestFormModal';
+import PasswordResetConfirmFormModal from '../modal/PasswordResetConfirmFormModal';
 
-type Props = {
+type StateProps = {
   loggedIn: boolean;
 };
 
-const HeaderContent: FC<Props> = ({ loggedIn }) => {
+const HeaderContent: FC<StateProps> = ({ loggedIn }) => {
   const passwordResetRequestModalHandle = useRef<() => void>();
+  const passwordResetConfirmModalHandle = useRef<() => void>();
+  const { resetEmail, resetToken } = useParams();
+  useEffect(() => {
+    if (passwordResetConfirmModalHandle.current) {
+      passwordResetConfirmModalHandle.current();
+    }
+  }, []);
   return (
     <Navbar collapseOnSelect={true} expand="sm" bg="primary" variant="dark">
       <Navbar.Brand>Hackathon 2020 (logo待定)</Navbar.Brand>
@@ -50,6 +58,19 @@ const HeaderContent: FC<Props> = ({ loggedIn }) => {
             </Navbar.Text>
           ) : (
             <>
+              {!resetEmail || !resetToken ? null : (
+                <PasswordResetConfirmFormModal
+                  passwordResetEmail={resetEmail}
+                  passwordResetToken={resetToken}
+                >
+                  {showModal =>
+                    (handle => {
+                      passwordResetConfirmModalHandle.current = handle;
+                      return <></>;
+                    })(showModal)
+                  }
+                </PasswordResetConfirmFormModal>
+              )}
               <PasswordResetRequestFormModal>
                 {showModal =>
                   (handle => {
@@ -74,7 +95,7 @@ const HeaderContent: FC<Props> = ({ loggedIn }) => {
   );
 };
 
-const mapStateToProps = (state: StateType) => ({
+const mapStateToProps = (state: StateType): StateProps => ({
   loggedIn: !!state.localData.email
 });
 

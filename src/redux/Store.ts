@@ -5,6 +5,7 @@ import passwordResetRequest from './reducer/passwordResetRequest.reducer';
 import userLogin from './reducer/userLogin.reducer';
 import userLogout from './reducer/userLogout.reducer';
 import userRegister from './reducer/userRegister.reducer';
+import signupFormFetchAndUpdate from './reducer/signupFormFetchAndUpdate.reducer';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   passwordResetRequest,
   userLogin,
   userRegister,
-  userLogout
+  userLogout,
+  signupFormFetchAndUpdate
 });
 
 const composeEnhancers = composeWithDevTools({ trace: true });

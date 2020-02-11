@@ -74,7 +74,7 @@ const PasswordResetRequestFormContent: FC<Props> = ({
         target={errorMsgTarget.current}
         placement="top"
       >
-        <Tooltip id="loginFormErrorMsg">{errorMsg}</Tooltip>
+        <Tooltip id="passwordResetRequestFormErrorMsg">{errorMsg}</Tooltip>
       </Overlay>
     </Form>
   );

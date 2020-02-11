@@ -79,8 +79,15 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
               type: 'USER_LOGOUT_RESET'
             });
             dispatch({
+              type: 'SIGNUP_FORM_FETCH_RESET'
+            });
+            dispatch({
+              type: 'SIGNUP_FORM_UPDATE_RESET'
+            });
+            dispatch({
               type: 'LOCAL_DATA_CLEAR'
             });
+            window.location.reload();
           }
         )
     },

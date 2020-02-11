@@ -2,7 +2,8 @@ import {
   PasswordResetRequest,
   UserLogin,
   UserRegister,
-  PasswordResetConfirm
+  PasswordResetConfirm,
+  SignupFormFetchAndUpdate
 } from '../StateTypes';
 import { Dispatch } from 'redux';
 
@@ -35,18 +36,19 @@ const createConnectiveAction = <State extends object | null>(
         setTimeout(() => reject(new Error('请求超时，请重试')), timeout)
       )
     ]);
+    const data = await response.text();
     if (response.ok) {
       dispatch({
-        type: successType
+        type: successType,
+        payload: data ? JSON.parse(data) : undefined
       });
       try {
         onSuccess(dispatch);
       } catch (error) {
-        // DO NOTHING
+        console.error(error);
       }
     } else {
-      const data = await response.json();
-      throw new Error(data.message);
+      throw new Error(JSON.parse(data).message);
     }
   } catch (error) {
     dispatch({
@@ -61,8 +63,12 @@ type ConnectiveStartAction<Type extends string, State extends object | null> = {
   payload: State;
 };
 
-type ConnectiveSuccessAction<Type extends string> = {
+type ConnectiveSuccessAction<
+  Type extends string,
+  State extends object | null
+> = {
   type: Type;
+  payload: State;
 };
 
 type ConnectiveErroredAction<Type extends string> = {
@@ -87,7 +93,7 @@ export type ConnectiveAction<
   State extends object | null = null
 > =
   | ConnectiveStartAction<Types[0], State>
-  | ConnectiveSuccessAction<Types[1]>
+  | ConnectiveSuccessAction<Types[1], State>
   | ConnectiveErroredAction<Types[2]>
   | ConnectiveResetAction<Types[3]>;
 
@@ -144,9 +150,9 @@ export type UserLogoutAction = ConnectiveAction<
   ]
 >;
 export const createUserLogoutAction = createConnectiveAction<null>(
-  'USER_REGISTER_START_CONNECTING',
-  'USER_REGISTER_CONNECT_SUCCESS',
-  'USER_REGISTER_CONNECT_ERRORED'
+  'USER_LOGOUT_START_CONNECTING',
+  'USER_LOGOUT_CONNECT_SUCCESS',
+  'USER_LOGOUT_CONNECT_ERRORED'
 );
 
 export type PasswordResetRequestAction = ConnectiveModalAction<
@@ -185,4 +191,38 @@ export const createPasswordResetConfirmAction = createConnectiveAction<
   'PASSWORD_RESET_CONFIRM_START_CONNECTING',
   'PASSWORD_RESET_CONFIRM_CONNECT_SUCCESS',
   'PASSWORD_RESET_CONFIRM_CONNECT_ERRORED'
+);
+
+export type SignupFormFetchAction = ConnectiveAction<
+  [
+    'SIGNUP_FORM_FETCH_START_CONNECTING',
+    'SIGNUP_FORM_FETCH_CONNECT_SUCCESS',
+    'SIGNUP_FORM_FETCH_CONNECT_ERRORED',
+    'SIGNUP_FORM_FETCH_RESET'
+  ],
+  SignupFormFetchAndUpdate['data']
+>;
+export const createSignupFormFetchAction = createConnectiveAction<
+  SignupFormFetchAndUpdate['data']
+>(
+  'SIGNUP_FORM_FETCH_START_CONNECTING',
+  'SIGNUP_FORM_FETCH_CONNECT_SUCCESS',
+  'SIGNUP_FORM_FETCH_CONNECT_ERRORED'
+);
+
+export type SignupFormUpdateAction = ConnectiveAction<
+  [
+    'SIGNUP_FORM_UPDATE_START_CONNECTING',
+    'SIGNUP_FORM_UPDATE_CONNECT_SUCCESS',
+    'SIGNUP_FORM_UPDATE_CONNECT_ERRORED',
+    'SIGNUP_FORM_UPDATE_RESET'
+  ],
+  SignupFormFetchAndUpdate['data']
+>;
+export const createSignupFormUpdateAction = createConnectiveAction<
+  SignupFormFetchAndUpdate['data']
+>(
+  'SIGNUP_FORM_UPDATE_START_CONNECTING',
+  'SIGNUP_FORM_UPDATE_CONNECT_SUCCESS',
+  'SIGNUP_FORM_UPDATE_CONNECT_ERRORED'
 );

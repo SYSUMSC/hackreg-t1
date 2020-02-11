@@ -29,7 +29,6 @@ const DescriptionPage: FunctionComponent = () => (
       </Row>
       <Row>
         <Col sm={6}>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -58,7 +57,6 @@ const DescriptionPage: FunctionComponent = () => (
       <Row>
         <Col sm={4}>
           <h4>在校带学生</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -71,7 +69,6 @@ const DescriptionPage: FunctionComponent = () => (
         </Col>
         <Col sm={4}>
           <h4>毕业生</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -84,7 +81,6 @@ const DescriptionPage: FunctionComponent = () => (
         </Col>
         <Col sm={4}>
           <h4>任何人</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -106,7 +102,6 @@ const DescriptionPage: FunctionComponent = () => (
       <Row>
         <Col sm={6}>
           <h4>我够格吗？</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -119,7 +114,6 @@ const DescriptionPage: FunctionComponent = () => (
         </Col>
         <Col sm={6}>
           <h4>比赛流程会不会很麻烦？</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -134,7 +128,6 @@ const DescriptionPage: FunctionComponent = () => (
       <Row>
         <Col sm={6}>
           <h4>我要不要女装参赛呢？</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -147,7 +140,6 @@ const DescriptionPage: FunctionComponent = () => (
         </Col>
         <Col sm={6}>
           <h4>包吃包住吗？</h4>
-          {/* tslint:disable-next-line: max-line-length */}
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

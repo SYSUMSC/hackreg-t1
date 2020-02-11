@@ -39,8 +39,40 @@ export interface PasswordResetConfirm {
   readonly connectStatus: ConnectStatus;
   readonly modalShown: boolean;
   readonly form: Readonly<{
-    email: string | null;
-    token: string | null;
     password: string | null;
+    confirmPassword: string | null;
   }>;
+}
+
+export type MemberFormValues = {
+  name: string;
+  gender: string;
+  captain: boolean;
+  email: string;
+  phone: string;
+  size: string;
+  school: string;
+  education: string;
+  grade: string;
+  profession: string;
+  experience: string;
+};
+
+export type SignupFormValues = {
+  teamInfo: {
+    name: string;
+    description: string;
+  };
+  memberInfo: MemberFormValues[];
+};
+
+export type SignupFormData = {
+  confirmed: boolean;
+  form: SignupFormValues;
+};
+
+export interface SignupFormFetchAndUpdate {
+  readonly fetchStatus: ConnectStatus;
+  readonly updateStatus: ConnectStatus;
+  readonly data: Readonly<SignupFormData> | null;
 }

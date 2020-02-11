@@ -8,8 +8,9 @@ import { StateType } from '../redux/Store';
 import { createUserLoginAction } from '../redux/action/connective.action';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { Dispatch } from 'redux';
+import { Action } from 'redux';
 import { emailAndPasswordValidationSchema } from '../shared/ValidationSchema';
+import { ThunkDispatch } from 'redux-thunk';
 
 type LoginFormValues = {
   email: string;
@@ -104,37 +105,41 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps): StateProps => ({
   ...ownProps
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StateType, {}, Action>
+): DispatchProps => ({
   submitFormAction: (values: LoginFormValues) =>
-    createUserLoginAction(
-      () =>
-        fetch('/auth/login', {
-          // TODO: change it to /backend/auth
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            Accept: 'application/json'
-          },
-          mode: 'same-origin',
-          credentials: 'same-origin',
-          body: JSON.stringify(values)
-        }),
-      values,
-      dispatch => {
-        dispatch({
-          type: 'USER_LOGIN_RESET'
-        });
-        dispatch({
-          type: 'USER_LOGIN_HIDE_MODAL'
-        });
-        dispatch({
-          type: 'LOCAL_DATA_SET',
-          payload: {
-            email: values.email,
-            expireTime: new Date().getTime() + 43200000
-          }
-        });
-      }
+    dispatch(
+      createUserLoginAction(
+        () =>
+          fetch('/auth/login', {
+            // TODO: change it to /backend/auth
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            mode: 'same-origin',
+            credentials: 'same-origin',
+            body: JSON.stringify(values)
+          }),
+        values,
+        dispatch => {
+          dispatch({
+            type: 'USER_LOGIN_RESET'
+          });
+          dispatch({
+            type: 'USER_LOGIN_HIDE_MODAL'
+          });
+          dispatch({
+            type: 'LOCAL_DATA_SET',
+            payload: {
+              email: values.email,
+              expireTime: new Date().getTime() + 43200000
+            }
+          });
+        }
+      )
     ),
   hideCurrentModal: () => {
     dispatch({
