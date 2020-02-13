@@ -8,7 +8,7 @@ import userRegister from './reducer/userRegister.reducer';
 import signupFormFetchAndUpdate from './reducer/signupFormFetchAndUpdate.reducer';
 import submitWork from './reducer/submitWork.reducer';
 import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 const rootReducer = combineReducers({
   localData,
@@ -25,7 +25,7 @@ const composeEnhancers = composeWithDevTools({ trace: true });
 
 export const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunkMiddleware)) // TODO: https://github.com/zalmoxisus/redux-devtools-extension#13-use-redux-devtools-extension-package-from-npm
+  composeEnhancers(applyMiddleware(thunkMiddleware))
 );
 export type StoreType = typeof store;
 export type StateType = ReturnType<typeof store.getState>;
