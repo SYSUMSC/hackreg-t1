@@ -1,43 +1,108 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
-import AccountStatus from '../account/AccountStatus';
-import { LoginEmailContext } from '../App';
-import withModal from '../shared/FormModal';
-import SubmitWorkForm from './SubmitWorkForm';
+import { NavLink, useParams } from 'react-router-dom';
+import './Header.css';
+import { connect } from 'react-redux';
+import { StateType } from '../redux/Store';
+import LoginFormModal from '../modal/LoginFormModal';
+import RegisterFormModal from '../modal/RegisterFormModal';
+import EmailAndLogoutButton from './EmailAndLogoutButton';
+import PasswordResetRequestFormModal from '../modal/PasswordResetRequestFormModal';
+import PasswordResetConfirmFormModal from '../modal/PasswordResetConfirmFormModal';
+import SubmitWorkModal from '../modal/SubmitWorkModal';
 
-const Header: FunctionComponent = () => {
-    const { state } = useContext(LoginEmailContext);
-    const [submitModalShown, toggleSubmitModal] = useState(false);
-    return (<Navbar collapseOnSelect={true} expand="sm" bg="primary" variant="dark">
-        <Navbar.Brand>
-            {/* TODO: logo img here */}
-            Hackathon 2020 (logo待定)
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="header-nav" />
-        <Navbar.Collapse id="header-nav">
-            <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/">首页</Nav.Link>
-                <Nav.Link as={Link} to="/description">介绍</Nav.Link>
-                <Nav.Link as={Link} to="/signup">报名</Nav.Link>
-                {
-                    !state ? null : (<>
-                        {/* TODO */}
-                        {
-                            withModal('提交作品', submitModalShown, () => toggleSubmitModal(false), <SubmitWorkForm />)
-                        }
-                        <Nav.Link onClick={() => toggleSubmitModal(true)}>提交</Nav.Link>
-                    </>)
-                }
-            </Nav>
-            <Nav>
-                <Navbar.Text>{/* TODO: should let accout status include the Navbar.Text */}
-                    <AccountStatus />
-                </Navbar.Text>
-            </Nav>
-        </Navbar.Collapse>
-    </Navbar>);
+type StateProps = {
+  loggedIn: boolean;
 };
+
+const HeaderContent: FC<StateProps> = ({ loggedIn }) => {
+  const passwordResetRequestModalHandle = useRef<() => void>();
+  const passwordResetConfirmModalHandle = useRef<() => void>();
+  const { resetEmail, resetToken } = useParams();
+  useEffect(() => {
+    if (passwordResetConfirmModalHandle.current) {
+      passwordResetConfirmModalHandle.current();
+    }
+  }, []);
+  return (
+    <Navbar collapseOnSelect={true} expand="sm" bg="primary" variant="dark">
+      <Navbar.Brand>Hackathon 2020 (logo待定)</Navbar.Brand>
+      <Navbar.Toggle aria-controls="header-nav" />
+      <Navbar.Collapse id="header-nav">
+        <Nav className="mr-auto">
+          <Nav.Link
+            as={NavLink}
+            activeClassName="nav-link-active"
+            to="/"
+            exact={true}
+          >
+            首页
+          </Nav.Link>
+          <Nav.Link
+            as={NavLink}
+            activeClassName="nav-link-active"
+            to="/description"
+          >
+            介绍
+          </Nav.Link>
+          <Nav.Link as={NavLink} activeClassName="nav-link-active" to="/signup">
+            报名
+          </Nav.Link>
+          {!loggedIn ? null : (
+            <SubmitWorkModal>
+              {showModal => <Nav.Link onClick={showModal}>提交</Nav.Link>}
+            </SubmitWorkModal>
+          )}
+        </Nav>
+        <Nav>
+          {loggedIn ? (
+            <Navbar.Text>
+              <EmailAndLogoutButton />
+            </Navbar.Text>
+          ) : (
+            <>
+              {!resetEmail || !resetToken ? null : (
+                <PasswordResetConfirmFormModal
+                  passwordResetEmail={resetEmail}
+                  passwordResetToken={resetToken}
+                >
+                  {showModal =>
+                    (handle => {
+                      passwordResetConfirmModalHandle.current = handle;
+                      return <></>;
+                    })(showModal)
+                  }
+                </PasswordResetConfirmFormModal>
+              )}
+              <PasswordResetRequestFormModal>
+                {showModal =>
+                  (handle => {
+                    passwordResetRequestModalHandle.current = handle;
+                    return <></>;
+                  })(showModal)
+                }
+              </PasswordResetRequestFormModal>
+              <LoginFormModal
+                showPasswordResetRequestModal={passwordResetRequestModalHandle}
+              >
+                {showModal => <Nav.Link onClick={showModal}>登录</Nav.Link>}
+              </LoginFormModal>
+              <RegisterFormModal>
+                {showModal => <Nav.Link onClick={showModal}>注册</Nav.Link>}
+              </RegisterFormModal>
+            </>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
+};
+
+const mapStateToProps = (state: StateType): StateProps => ({
+  loggedIn: !!state.localData.email
+});
+
+const Header = connect(mapStateToProps)(HeaderContent);
 
 export default Header;
