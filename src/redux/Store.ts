@@ -6,6 +6,7 @@ import userLogin from './reducer/userLogin.reducer';
 import userLogout from './reducer/userLogout.reducer';
 import userRegister from './reducer/userRegister.reducer';
 import signupFormFetchAndUpdate from './reducer/signupFormFetchAndUpdate.reducer';
+import submitWork from './reducer/submitWork.reducer';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   userLogin,
   userRegister,
   userLogout,
-  signupFormFetchAndUpdate
+  signupFormFetchAndUpdate,
+  submitWork
 });
 
 const composeEnhancers = composeWithDevTools({ trace: true });

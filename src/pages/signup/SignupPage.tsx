@@ -9,7 +9,6 @@ import MemberInfo from './MemberInfo';
 import './SignupPage.css';
 import { connect } from 'react-redux';
 import { StateType } from '../../redux/Store';
-import { SignupFormData } from '../../redux/StateTypes';
 import { signupFormValidationSchema } from '../../shared/ValidationSchema';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
@@ -22,6 +21,8 @@ import ConfirmSignupCheckbox from './ConfirmSignupCheckbox';
 import TeamInfoContent from './TeamInfoContent';
 import SubmitButton from './SubmitButton';
 import LoadingSpinnerContent from './LoadingSpinnerContent';
+import { SignupFormData } from '../../redux/type/signupForm.type';
+import fetch from 'cross-fetch';
 
 type StateProps = { loggedIn: boolean } & StateType['signupFormFetchAndUpdate'];
 
@@ -48,7 +49,7 @@ const SignupPageContent: FC<Props> = props => {
     if (loggedIn) {
       submitFetchAction();
     }
-  }, [loggedIn]);
+  }, [loggedIn, submitFetchAction]);
   if (!loggedIn) {
     return <LoginAlert />;
   }

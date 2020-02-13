@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { createUserRegisterAction } from '../redux/action/connective.action';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
+import fetch from 'cross-fetch';
 
 type RegisterFormValues = {
   email: string;
@@ -143,8 +144,10 @@ const registerFormContentWithFormik = withFormik<
 >({
   validationSchema: emailAndPasswordValidationSchema,
   mapPropsToValues: ({ form }) => ({
-    email: form.email ?? '',
-    password: form.password ?? ''
+    ...(form ?? {
+      email: '',
+      password: ''
+    })
   }),
   handleSubmit: (values, { props }) => {
     props.submitFormAction(values);

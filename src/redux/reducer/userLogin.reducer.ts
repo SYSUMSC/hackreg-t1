@@ -1,13 +1,10 @@
 import { UserLoginAction } from '../action/connective.action';
-import { UserLogin } from '../StateTypes';
+import { UserLogin } from '../type/userLogin.type';
 
 const initialState: UserLogin = {
   connectStatus: { type: 'INITIAL' },
   modalShown: false,
-  form: {
-    email: null,
-    password: null
-  }
+  form: null
 };
 
 export default function userLogin(
@@ -38,7 +35,7 @@ export default function userLogin(
       return {
         ...state,
         connectStatus: { type: 'INITIAL' },
-        form: { email: null, password: null }
+        form: null
       };
     case 'USER_LOGIN_SHOW_MODAL':
       return {

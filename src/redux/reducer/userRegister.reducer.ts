@@ -1,13 +1,10 @@
-import { UserRegister } from '../StateTypes';
 import { UserRegisterAction } from '../action/connective.action';
+import { UserRegister } from '../type/userRegister.type';
 
 const initialState: UserRegister = {
   connectStatus: { type: 'INITIAL' },
   modalShown: false,
-  form: {
-    email: null,
-    password: null
-  }
+  form: null
 };
 
 export default function userRegister(
@@ -38,7 +35,7 @@ export default function userRegister(
       return {
         ...state,
         connectStatus: { type: 'INITIAL' },
-        form: { email: null, password: null }
+        form: null
       };
     case 'USER_REGISTER_SHOW_MODAL':
       return {

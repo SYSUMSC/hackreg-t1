@@ -11,6 +11,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { createPasswordResetConfirmAction } from '../redux/action/connective.action';
 import { passwordResetValidationSchema } from '../shared/ValidationSchema';
 import { connect } from 'react-redux';
+import fetch from 'cross-fetch';
 
 type PasswordResetConfirmFormValues = {
   email: string;
@@ -28,11 +29,12 @@ type DispatchProps = {
   submitFormAction: (values: PasswordResetConfirmFormValues) => void;
 };
 
-type StateProps = OwnProps & StateType['passwordResetConfirm'];
+type StateProps = StateType['passwordResetConfirm'];
 
 type Props = FormikProps<PasswordResetConfirmFormValues> &
   DispatchProps &
-  StateProps;
+  StateProps &
+  OwnProps;
 
 const PasswordResetConfirmFormContent: FC<Props> = ({
   handleSubmit,
@@ -143,15 +145,15 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   );
 
 const passwordResetConfirmFormContentWithFormik = withFormik<
-  StateProps & DispatchProps,
+  StateProps & DispatchProps & OwnProps,
   PasswordResetConfirmFormValues
 >({
   validationSchema: passwordResetValidationSchema,
   mapPropsToValues: ({ presetEmail, presetToken, form }) => ({
     email: presetEmail,
     token: presetToken,
-    password: form.password ?? '',
-    confirmPassword: form.confirmPassword ?? ''
+    password: form?.password ?? '',
+    confirmPassword: form?.confirmPassword ?? ''
   }),
   handleSubmit: (values, { props }) => {
     props.submitFormAction(values);

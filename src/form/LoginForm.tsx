@@ -1,5 +1,5 @@
 import { withFormik, FormikProps } from 'formik';
-import React, { FC, useRef, MutableRefObject } from 'react';
+import React, { FC, useRef, RefObject } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
@@ -11,6 +11,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { Action } from 'redux';
 import { emailAndPasswordValidationSchema } from '../shared/ValidationSchema';
 import { ThunkDispatch } from 'redux-thunk';
+import fetch from 'cross-fetch';
 
 type LoginFormValues = {
   email: string;
@@ -18,7 +19,7 @@ type LoginFormValues = {
 };
 
 type OwnProps = {
-  showPasswordResetRequestModal: MutableRefObject<(() => void) | undefined>;
+  showPasswordResetRequestModal: RefObject<(() => void) | undefined>;
 };
 
 type DispatchProps = {
@@ -26,9 +27,12 @@ type DispatchProps = {
   hideCurrentModal: () => void;
 };
 
-type StateProps = OwnProps & StateType['userLogin'];
+type StateProps = StateType['userLogin'];
 
-type Props = FormikProps<LoginFormValues> & DispatchProps & StateProps;
+type Props = FormikProps<LoginFormValues> &
+  DispatchProps &
+  StateProps &
+  OwnProps;
 
 const LoginFormContent: FC<Props> = ({
   handleSubmit,
@@ -100,7 +104,10 @@ const LoginFormContent: FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: StateType, ownProps: OwnProps): StateProps => ({
+const mapStateToProps = (
+  state: StateType,
+  ownProps: OwnProps
+): StateProps & OwnProps => ({
   ...state.userLogin,
   ...ownProps
 });
@@ -152,13 +159,15 @@ const mapDispatchToProps = (
 });
 
 const loginFormContentWithFormik = withFormik<
-  StateProps & DispatchProps,
+  StateProps & DispatchProps & OwnProps,
   LoginFormValues
 >({
   validationSchema: emailAndPasswordValidationSchema,
   mapPropsToValues: ({ form }) => ({
-    email: form.email ?? '',
-    password: form.password ?? ''
+    ...(form ?? {
+      email: '',
+      password: ''
+    })
   }),
   handleSubmit: (values, { props }) => {
     props.submitFormAction(values);

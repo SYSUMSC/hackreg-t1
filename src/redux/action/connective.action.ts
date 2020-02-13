@@ -1,13 +1,11 @@
-import {
-  PasswordResetRequest,
-  UserLogin,
-  UserRegister,
-  PasswordResetConfirm,
-  SignupFormFetchAndUpdate
-} from '../StateTypes';
 import { Dispatch } from 'redux';
+import { UserLogin } from '../type/userLogin.type';
+import { UserRegister } from '../type/userRegister.type';
+import { PasswordResetRequest } from '../type/passwordResetRequest.type';
+import { PasswordResetConfirm } from '../type/passwordResetConfirm.type';
+import { SignupFormFetchAndUpdate } from '../type/signupForm.type';
 
-const createConnectiveAction = <State extends object | null>(
+const createConnectiveAction = <State extends object | null = null>(
   startType: string,
   successType: string,
   errroredTyoe: string
@@ -149,7 +147,7 @@ export type UserLogoutAction = ConnectiveAction<
     'USER_LOGOUT_RESET'
   ]
 >;
-export const createUserLogoutAction = createConnectiveAction<null>(
+export const createUserLogoutAction = createConnectiveAction(
   'USER_LOGOUT_START_CONNECTING',
   'USER_LOGOUT_CONNECT_SUCCESS',
   'USER_LOGOUT_CONNECT_ERRORED'
@@ -225,4 +223,20 @@ export const createSignupFormUpdateAction = createConnectiveAction<
   'SIGNUP_FORM_UPDATE_START_CONNECTING',
   'SIGNUP_FORM_UPDATE_CONNECT_SUCCESS',
   'SIGNUP_FORM_UPDATE_CONNECT_ERRORED'
+);
+
+export type SubmitWorkAction = ConnectiveModalAction<
+  [
+    'SUBMIT_WORK_START_CONNECTING',
+    'SUBMIT_WORK_CONNECT_SUCCESS',
+    'SUBMIT_WORK_CONNECT_ERRORED',
+    'SUBMIT_WORK_RESET',
+    'SUBMIT_WORK_SHOW_MODAL',
+    'SUBMIT_WORK_HIDE_MODAL'
+  ]
+>;
+export const createSubmitWorkAction = createConnectiveAction(
+  'SUBMIT_WORK_START_CONNECTING',
+  'SUBMIT_WORK_CONNECT_SUCCESS',
+  'SUBMIT_WORK_CONNECT_ERRORED'
 );

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { FormikProps } from 'formik';
-import { SignupFormData } from '../../redux/StateTypes';
 import Form from 'react-bootstrap/Form';
+import { SignupFormData } from '../../redux/type/signupForm.type';
 
 type ConfirmSignupCheckboxProps = {
   submitting: boolean;

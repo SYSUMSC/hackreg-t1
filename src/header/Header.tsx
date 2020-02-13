@@ -10,6 +10,7 @@ import RegisterFormModal from '../modal/RegisterFormModal';
 import EmailAndLogoutButton from './EmailAndLogoutButton';
 import PasswordResetRequestFormModal from '../modal/PasswordResetRequestFormModal';
 import PasswordResetConfirmFormModal from '../modal/PasswordResetConfirmFormModal';
+import SubmitWorkModal from '../modal/SubmitWorkModal';
 
 type StateProps = {
   loggedIn: boolean;
@@ -48,8 +49,11 @@ const HeaderContent: FC<StateProps> = ({ loggedIn }) => {
           <Nav.Link as={NavLink} activeClassName="nav-link-active" to="/signup">
             报名
           </Nav.Link>
-          {!loggedIn ? null : '' // TODO: submit work modal
-          }
+          {!loggedIn ? null : (
+            <SubmitWorkModal>
+              {showModal => <Nav.Link onClick={showModal}>提交</Nav.Link>}
+            </SubmitWorkModal>
+          )}
         </Nav>
         <Nav>
           {loggedIn ? (

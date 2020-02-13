@@ -10,7 +10,7 @@ type OwnProps = {
   trigger: (showModal: () => void) => ReactElement;
 };
 
-type StateProps = OwnProps & {
+type StateProps = {
   show: boolean;
 };
 
@@ -20,7 +20,7 @@ type DispatchProps = {
   resetFormData: () => void;
 };
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 const ControlledModalContent: FC<Props> = ({
   title,

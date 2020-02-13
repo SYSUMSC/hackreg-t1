@@ -7,7 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import './MemberInfo.css';
-import { SignupFormData, MemberFormValues } from '../../redux/StateTypes';
+import {
+  MemberFormValues,
+  SignupFormData
+} from '../../redux/type/signupForm.type';
 
 type MemberInfoContentProps = {
   submitting: boolean;
@@ -82,7 +85,7 @@ const MemberInfoContent: FC<MemberInfoContentProps> = ({
         </Form.Label>
         <Col sm={10}>
           <Form.Control
-            type="text"
+            type="tel"
             maxLength={20}
             isInvalid={!!touchedItems?.phone && !!erroredItems?.phone}
             disabled={submitting || values.confirmed}

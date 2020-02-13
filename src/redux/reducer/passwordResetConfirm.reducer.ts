@@ -1,13 +1,10 @@
 import { PasswordResetConfirmAction } from '../action/connective.action';
-import { PasswordResetConfirm } from '../StateTypes';
+import { PasswordResetConfirm } from '../type/passwordResetConfirm.type';
 
 const initialState: PasswordResetConfirm = {
   connectStatus: { type: 'INITIAL' },
   modalShown: false,
-  form: {
-    password: null,
-    confirmPassword: null
-  }
+  form: null
 };
 
 export default function passwordResetConfirm(
@@ -38,7 +35,7 @@ export default function passwordResetConfirm(
       return {
         ...state,
         connectStatus: { type: 'INITIAL' },
-        form: { password: null, confirmPassword: null }
+        form: null
       };
     case 'PASSWORD_RESET_CONFIRM_SHOW_MODAL':
       return {

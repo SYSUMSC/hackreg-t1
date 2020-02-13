@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, MutableRefObject } from 'react';
+import React, { FC, ReactElement, RefObject } from 'react';
 import ControlledModalFactory from './ControlledModal';
 import LoginForm from '../form/LoginForm';
 
@@ -8,7 +8,7 @@ const ControlledModal = ControlledModalFactory(
 );
 
 type Props = {
-  showPasswordResetRequestModal: MutableRefObject<(() => void) | undefined>;
+  showPasswordResetRequestModal: RefObject<(() => void) | undefined>;
   children: (showModal: () => void) => ReactElement;
 };
 

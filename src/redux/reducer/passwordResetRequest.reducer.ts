@@ -1,12 +1,10 @@
 import { PasswordResetRequestAction } from '../action/connective.action';
-import { PasswordResetRequest } from '../StateTypes';
+import { PasswordResetRequest } from '../type/passwordResetRequest.type';
 
 const initialState: PasswordResetRequest = {
   connectStatus: { type: 'INITIAL' },
   modalShown: false,
-  form: {
-    email: null
-  }
+  form: null
 };
 
 export default function passwordResetRequest(
@@ -18,9 +16,7 @@ export default function passwordResetRequest(
       return {
         ...state,
         connectStatus: { type: 'CONNECTING' },
-        form: {
-          email: action.payload.email
-        }
+        form: action.payload
       };
     case 'PASSWORD_RESET_REQUEST_CONNECT_ERRORED':
       return {
@@ -39,9 +35,7 @@ export default function passwordResetRequest(
       return {
         ...state,
         connectStatus: { type: 'INITIAL' },
-        form: {
-          email: null
-        }
+        form: null
       };
     case 'PASSWORD_RESET_REQUEST_SHOW_MODAL':
       return {

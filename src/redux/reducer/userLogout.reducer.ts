@@ -1,5 +1,5 @@
-import { UserLogout } from '../StateTypes';
 import { UserLogoutAction } from '../action/connective.action';
+import { UserLogout } from '../type/userLogout.type';
 
 const initialState: UserLogout = {
   connectStatus: { type: 'INITIAL' }

@@ -8,6 +8,7 @@ import { ConnectStatus } from '../redux/type/shared';
 import { bindActionCreators, Dispatch } from 'redux';
 import { createUserLogoutAction } from '../redux/action/connective.action';
 import './EmailAndLogoutButton.css';
+import fetch from 'cross-fetch';
 
 type StateProps = {
   email: string;
@@ -87,7 +88,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
             dispatch({
               type: 'LOCAL_DATA_CLEAR'
             });
-            window.location.reload();
+            window.location.reload(true);
           }
         )
     },

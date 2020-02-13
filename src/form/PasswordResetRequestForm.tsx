@@ -11,6 +11,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { createPasswordResetRequestAction } from '../redux/action/connective.action';
 import { emailValidationSchema } from '../shared/ValidationSchema';
 import { connect } from 'react-redux';
+import fetch from 'cross-fetch';
 
 type PasswordResetRequestFormValues = {
   email: string;
@@ -113,7 +114,7 @@ const passwordResetRequestFormContentWithFormik = withFormik<
 >({
   validationSchema: emailValidationSchema,
   mapPropsToValues: ({ form }) => ({
-    email: form.email ?? ''
+    email: form?.email ?? ''
   }),
   handleSubmit: (values, { props }) => {
     props.submitFormAction(values);
