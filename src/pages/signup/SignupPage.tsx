@@ -29,6 +29,7 @@ type StateProps = { loggedIn: boolean } & StateType['signupFormFetchAndUpdate'];
 type DispatchProps = {
   submitFetchAction: () => void;
   submitUpdateAction: (values: SignupFormData) => void;
+  reset: () => void;
 };
 
 type Props = FormikProps<SignupFormData> & DispatchProps & StateProps;
@@ -39,7 +40,8 @@ const SignupPageContent: FC<Props> = props => {
     submitFetchAction,
     fetchStatus,
     updateStatus,
-    handleSubmit
+    handleSubmit,
+    reset
   } = props;
   const submitting = updateStatus.type === 'CONNECTING';
   const updateErrorMsg =
@@ -48,8 +50,10 @@ const SignupPageContent: FC<Props> = props => {
   useEffect(() => {
     if (loggedIn) {
       submitFetchAction();
+    } else {
+      reset();
     }
-  }, [loggedIn, submitFetchAction]);
+  }, [loggedIn, submitFetchAction, reset]);
   if (!loggedIn) {
     return <LoginAlert />;
   }
@@ -146,7 +150,15 @@ const mapDispatchToProps = (
           }),
         values
       )
-    )
+    ),
+  reset: () => {
+    dispatch({
+      type: 'SIGNUP_FORM_FETCH_RESET'
+    });
+    dispatch({
+      type: 'SIGNUP_FORM_UPDATE_RESET'
+    });
+  }
 });
 
 const signupPageWithFormik = withFormik<
