@@ -17,16 +17,10 @@ const createConnectiveAction = <State extends object | null = null>(
   },
   timeout = 8000
 ) => async (dispatch: Dispatch) => {
-  if (payload) {
-    dispatch({
-      type: startType,
-      payload
-    });
-  } else {
-    dispatch({
-      type: startType
-    });
-  }
+  dispatch({
+    type: startType,
+    payload: payload ?? undefined
+  });
   try {
     const response = await Promise.race<Promise<Response>>([
       makeApi(),
