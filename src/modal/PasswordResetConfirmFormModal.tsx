@@ -14,7 +14,7 @@ const ControlledModal = ControlledModalFactory(
 type Props = {
   passwordResetEmail: string;
   passwordResetToken: string;
-  children: (showModal: () => void) => ReactElement;
+  children: (showModal: () => void) => ReactElement | void;
 };
 
 const PasswordResetConfirmFormModal: FC<Props> = ({

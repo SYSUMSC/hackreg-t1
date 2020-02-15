@@ -5,13 +5,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import { StateType } from '../redux/Store';
-import { bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { emailAndPasswordValidationSchema } from '../shared/ValidationSchema';
 import { connect } from 'react-redux';
 import { createUserRegisterAction } from '../redux/action/connective.action';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import fetch from 'cross-fetch';
+import { ThunkDispatch } from 'redux-thunk';
 
 type RegisterFormValues = {
   email: string;
@@ -105,47 +106,47 @@ const mapStateToProps = (state: StateType): StateProps => ({
   ...state.userLogin
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators(
-    {
-      submitFormAction: (values: RegisterFormValues) =>
-        createUserRegisterAction(
-          () =>
-            fetch(
-              `${
-                process.env.NODE_ENV === 'production' ? '/backend' : ''
-              }/auth/register`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8',
-                  Accept: 'application/json'
-                },
-                mode: 'same-origin',
-                credentials: 'same-origin',
-                body: JSON.stringify(values)
-              }
-            ),
-          values,
-          dispatch => {
-            dispatch({
-              type: 'USER_REGISTER_RESET'
-            });
-            dispatch({
-              type: 'USER_REGISTER_HIDE_MODAL'
-            });
-            dispatch({
-              type: 'LOCAL_DATA_SET',
-              payload: {
-                email: values.email,
-                expireTime: new Date().getTime() + 43200000
-              }
-            });
-          }
-        )
-    },
-    dispatch
-  );
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StateType, {}, Action>
+): DispatchProps => ({
+  submitFormAction: (values: RegisterFormValues) =>
+    dispatch(
+      createUserRegisterAction(
+        () =>
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/auth/register`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: JSON.stringify(values)
+            }
+          ),
+        values,
+        dispatch => {
+          dispatch({
+            type: 'USER_REGISTER_RESET'
+          });
+          dispatch({
+            type: 'USER_REGISTER_HIDE_MODAL'
+          });
+          dispatch({
+            type: 'LOCAL_DATA_SET',
+            payload: {
+              email: values.email,
+              expireTime: new Date().getTime() + 43200000
+            }
+          });
+        }
+      )
+    )
+});
 
 const registerFormContentWithFormik = withFormik<
   StateProps & DispatchProps,

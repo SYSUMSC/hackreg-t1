@@ -7,11 +7,12 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Alert from 'react-bootstrap/Alert';
 import { StateType } from '../redux/Store';
-import { bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { createPasswordResetRequestAction } from '../redux/action/connective.action';
 import { emailValidationSchema } from '../shared/ValidationSchema';
 import { connect } from 'react-redux';
 import fetch from 'cross-fetch';
+import { ThunkDispatch } from 'redux-thunk';
 
 type PasswordResetRequestFormValues = {
   email: string;
@@ -96,32 +97,32 @@ const mapStateToProps = (state: StateType): StateProps => ({
   ...state.passwordResetRequest
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators(
-    {
-      submitFormAction: (values: PasswordResetRequestFormValues) =>
-        createPasswordResetRequestAction(
-          () =>
-            fetch(
-              `${
-                process.env.NODE_ENV === 'production' ? '/backend' : ''
-              }/auth/reset`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8',
-                  Accept: 'application/json'
-                },
-                mode: 'same-origin',
-                credentials: 'same-origin',
-                body: JSON.stringify(values)
-              }
-            ),
-          values
-        )
-    },
-    dispatch
-  );
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StateType, {}, Action>
+): DispatchProps => ({
+  submitFormAction: (values: PasswordResetRequestFormValues) =>
+    dispatch(
+      createPasswordResetRequestAction(
+        () =>
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/auth/reset`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: JSON.stringify(values)
+            }
+          ),
+        values
+      )
+    )
+});
 
 const passwordResetRequestFormContentWithFormik = withFormik<
   StateProps & DispatchProps,

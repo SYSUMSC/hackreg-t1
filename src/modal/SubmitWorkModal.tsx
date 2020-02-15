@@ -8,7 +8,7 @@ const ControlledModal = ControlledModalFactory(
 );
 
 type Props = {
-  children: (showModal: () => void) => ReactElement;
+  children: (showModal: () => void) => ReactElement | void;
 };
 
 const SubmitWorkFormModal: FC<Props> = ({ children }) => (

@@ -67,21 +67,15 @@ const HeaderContent: FC<StateProps> = ({ loggedIn }) => {
                   passwordResetEmail={resetEmail}
                   passwordResetToken={resetToken}
                 >
-                  {showModal =>
-                    (handle => {
-                      passwordResetConfirmModalHandle.current = handle;
-                      return <></>;
-                    })(showModal)
-                  }
+                  {showModal => {
+                    passwordResetConfirmModalHandle.current = showModal;
+                  }}
                 </PasswordResetConfirmFormModal>
               )}
               <PasswordResetRequestFormModal>
-                {showModal =>
-                  (handle => {
-                    passwordResetRequestModalHandle.current = handle;
-                    return <></>;
-                  })(showModal)
-                }
+                {showModal => {
+                  passwordResetRequestModalHandle.current = showModal;
+                }}
               </PasswordResetRequestFormModal>
               <LoginFormModal
                 showPasswordResetRequestModal={passwordResetRequestModalHandle}

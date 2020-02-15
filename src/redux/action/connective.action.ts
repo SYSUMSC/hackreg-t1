@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
-import { UserLogin } from '../type/userLogin.type';
-import { UserRegister } from '../type/userRegister.type';
-import { PasswordResetRequest } from '../type/passwordResetRequest.type';
-import { PasswordResetConfirm } from '../type/passwordResetConfirm.type';
-import { SignupFormFetchAndUpdate } from '../type/signupForm.type';
+import UserLogin from '../type/userLogin.type';
+import UserRegister from '../type/userRegister.type';
+import PasswordResetRequest from '../type/passwordResetRequest.type';
+import PasswordResetConfirm from '../type/passwordResetConfirm.type';
+import SignupFormFetchAndUpdate from '../type/signupForm.type';
 
 const createConnectiveAction = <State extends object | null = null>(
   startType: string,

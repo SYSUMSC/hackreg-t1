@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 type OwnProps = {
   title: string;
   form: ReactElement;
-  trigger: (showModal: () => void) => ReactElement;
+  trigger: (showModal: () => void) => ReactElement | void;
 };
 
 type StateProps = {

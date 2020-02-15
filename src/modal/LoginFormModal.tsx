@@ -9,7 +9,7 @@ const ControlledModal = ControlledModalFactory(
 
 type Props = {
   showPasswordResetRequestModal: RefObject<(() => void) | undefined>;
-  children: (showModal: () => void) => ReactElement;
+  children: (showModal: () => void) => ReactElement | void;
 };
 
 const LoginFormModal: FC<Props> = ({

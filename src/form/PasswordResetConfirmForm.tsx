@@ -7,11 +7,12 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Alert from 'react-bootstrap/Alert';
 import { StateType } from '../redux/Store';
-import { bindActionCreators, Dispatch } from 'redux';
+import { Action } from 'redux';
 import { createPasswordResetConfirmAction } from '../redux/action/connective.action';
 import { passwordResetValidationSchema } from '../shared/ValidationSchema';
 import { connect } from 'react-redux';
 import fetch from 'cross-fetch';
+import { ThunkDispatch } from 'redux-thunk';
 
 type PasswordResetConfirmFormValues = {
   email: string;
@@ -132,35 +133,35 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps): StateProps => ({
   ...ownProps
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators(
-    {
-      submitFormAction: (values: PasswordResetConfirmFormValues) =>
-        createPasswordResetConfirmAction(
-          () =>
-            fetch(
-              `${
-                process.env.NODE_ENV === 'production' ? '/backend' : ''
-              }/auth/confirm`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json; charset=utf-8',
-                  Accept: 'application/json'
-                },
-                mode: 'same-origin',
-                credentials: 'same-origin',
-                body: JSON.stringify({ ...values, confirmPassword: undefined })
-              }
-            ),
-          values,
-          () => {
-            setTimeout(() => window.location.replace('/'), 3000);
-          }
-        )
-    },
-    dispatch
-  );
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<StateType, {}, Action>
+): DispatchProps => ({
+  submitFormAction: (values: PasswordResetConfirmFormValues) =>
+    dispatch(
+      createPasswordResetConfirmAction(
+        () =>
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/auth/confirm`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: JSON.stringify({ ...values, confirmPassword: undefined })
+            }
+          ),
+        values,
+        () => {
+          setTimeout(() => window.location.replace('/'), 3000);
+        }
+      )
+    )
+});
 
 const passwordResetConfirmFormContentWithFormik = withFormik<
   StateProps & DispatchProps & OwnProps,

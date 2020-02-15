@@ -1,4 +1,4 @@
-import { LocalData } from '../type/localData.type';
+import LocalData from '../type/localData.type';
 
 interface ClearAction {
   type: 'LOCAL_DATA_CLEAR';
