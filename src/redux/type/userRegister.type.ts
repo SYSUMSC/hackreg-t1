@@ -1,6 +1,6 @@
 import { ConnectStatus } from './shared';
 
-export interface UserRegister {
+export default interface UserRegister {
   readonly connectStatus: ConnectStatus;
   readonly modalShown: boolean;
   readonly form: Readonly<{

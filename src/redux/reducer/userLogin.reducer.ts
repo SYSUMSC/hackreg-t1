@@ -1,5 +1,5 @@
 import { UserLoginAction } from '../action/connective.action';
-import { UserLogin } from '../type/userLogin.type';
+import UserLogin from '../type/userLogin.type';
 
 const initialState: UserLogin = {
   connectStatus: { type: 'INITIAL' },

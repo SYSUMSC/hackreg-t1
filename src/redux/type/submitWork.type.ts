@@ -1,6 +1,6 @@
 import { ConnectStatus } from './shared';
 
-export interface SubmitWork {
+export default interface SubmitWork {
   readonly connectStatus: ConnectStatus;
   readonly modalShown: boolean;
 }

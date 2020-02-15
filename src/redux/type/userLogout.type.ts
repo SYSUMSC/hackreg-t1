@@ -1,5 +1,5 @@
 import { ConnectStatus } from './shared';
 
-export interface UserLogout {
+export default interface UserLogout {
   readonly connectStatus: ConnectStatus;
 }

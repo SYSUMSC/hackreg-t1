@@ -25,14 +25,6 @@ const SubmitWorkFormContent: FC<Props> = ({ connectStatus, handleSubmit }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const msgTarget = useRef<any>(null);
   const file = useRef<File | null>();
-  const submitting = connectStatus.type === 'CONNECTING';
-  const success = connectStatus.type === 'SUCCESS';
-  const message =
-    connectStatus.type === 'ERRORED'
-      ? connectStatus.message
-      : success
-      ? '提交成功'
-      : null;
   return (
     <Form>
       <Alert variant="info">
@@ -41,7 +33,10 @@ const SubmitWorkFormContent: FC<Props> = ({ connectStatus, handleSubmit }) => {
       <input
         type="file"
         accept=".zip"
-        disabled={submitting || success}
+        disabled={
+          connectStatus.type === 'CONNECTING' ||
+          connectStatus.type === 'SUCCESS'
+        }
         onChange={e =>
           (file.current = e.target.files ? e.target.files[0] : undefined)
         }
@@ -50,21 +45,30 @@ const SubmitWorkFormContent: FC<Props> = ({ connectStatus, handleSubmit }) => {
         variant="outline-primary"
         className="float-right"
         ref={msgTarget}
-        disabled={submitting || success}
+        disabled={
+          connectStatus.type === 'CONNECTING' ||
+          connectStatus.type === 'SUCCESS'
+        }
         onClick={() => handleSubmit(file)}
       >
-        {submitting ? (
+        {connectStatus.type === 'CONNECTING' ? (
           <Spinner as="span" animation="border" size="sm" />
         ) : (
           '提交作品'
         )}
       </Button>
       <Overlay
-        show={!!message && !submitting}
+        show={connectStatus.type === 'ERRORED'}
         target={msgTarget.current}
         placement="top"
       >
-        <Tooltip id="submitWorkFormMsg">{message}</Tooltip>
+        <Tooltip id="submitWorkFormMsg">
+          {connectStatus.type === 'ERRORED'
+            ? connectStatus.message
+            : connectStatus.type === 'SUCCESS'
+            ? '提交成功'
+            : null}
+        </Tooltip>
       </Overlay>
     </Form>
   );
@@ -89,13 +93,17 @@ const mapDispatchToProps = (
       dispatch(
         createSubmitWorkAction(
           () =>
-            fetch('/submit', {
-              // TODO: change it to /backend/submit
-              method: 'POST',
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: data
-            }),
+            fetch(
+              `${
+                process.env.NODE_ENV === 'production' ? '/backend' : ''
+              }/submit`,
+              {
+                method: 'POST',
+                mode: 'same-origin',
+                credentials: 'same-origin',
+                body: data
+              }
+            ),
           null
         )
       );

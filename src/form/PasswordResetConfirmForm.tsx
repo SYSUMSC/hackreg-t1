@@ -47,13 +47,9 @@ const PasswordResetConfirmFormContent: FC<Props> = ({
   // FIXME: https://github.com/react-bootstrap/react-bootstrap/issues/4706
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const errorMsgTarget = useRef<any>(null);
-  const submitting = connectStatus.type === 'CONNECTING';
-  const success = connectStatus.type === 'SUCCESS';
-  const errorMsg =
-    connectStatus.type === 'ERRORED' ? connectStatus.message : null;
   return (
     <Form onSubmit={handleSubmit}>
-      {!success ? null : (
+      {connectStatus.type !== 'SUCCESS' ? null : (
         <Alert variant="success">重置密码成功，页面即将刷新...</Alert>
       )}
       <Form.Group controlId="email">
@@ -68,9 +64,15 @@ const PasswordResetConfirmFormContent: FC<Props> = ({
         <Form.Label>密码</Form.Label>
         <Form.Control
           type="password"
-          isInvalid={!!touched.password && (!!errors.password || !!errorMsg)}
+          isInvalid={
+            !!touched.password &&
+            (!!errors.password || connectStatus.type === 'ERRORED')
+          }
           maxLength={30}
-          disabled={submitting || success}
+          disabled={
+            connectStatus.type === 'CONNECTING' ||
+            connectStatus.type === 'SUCCESS'
+          }
           {...getFieldProps('password')}
         />
         <Form.Text className="text-muted font-weight-light">
@@ -83,10 +85,13 @@ const PasswordResetConfirmFormContent: FC<Props> = ({
           type="password"
           isInvalid={
             !!touched.confirmPassword &&
-            (!!errors.confirmPassword || !!errorMsg)
+            (!!errors.confirmPassword || connectStatus.type === 'ERRORED')
           }
           maxLength={30}
-          disabled={submitting || success}
+          disabled={
+            connectStatus.type === 'CONNECTING' ||
+            connectStatus.type === 'SUCCESS'
+          }
           {...getFieldProps('confirmPassword')}
         />
         <Form.Text className="text-muted font-weight-light">
@@ -98,16 +103,25 @@ const PasswordResetConfirmFormContent: FC<Props> = ({
         variant="outline-primary"
         className="float-right"
         ref={errorMsgTarget}
-        disabled={submitting || success}
+        disabled={
+          connectStatus.type === 'CONNECTING' ||
+          connectStatus.type === 'SUCCESS'
+        }
       >
-        {submitting ? <Spinner animation="border" size="sm" /> : '确认'}
+        {connectStatus.type === 'CONNECTING' ? (
+          <Spinner animation="border" size="sm" />
+        ) : (
+          '确认'
+        )}
       </Button>
       <Overlay
-        show={!!errorMsg && !submitting}
+        show={connectStatus.type === 'ERRORED'}
         target={errorMsgTarget.current}
         placement="top"
       >
-        <Tooltip id="passwordResetConfirmFormErrorMsg">{errorMsg}</Tooltip>
+        <Tooltip id="passwordResetConfirmFormErrorMsg">
+          {connectStatus.type === 'ERRORED' ? connectStatus.message : null}
+        </Tooltip>
       </Overlay>
     </Form>
   );
@@ -124,17 +138,21 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
       submitFormAction: (values: PasswordResetConfirmFormValues) =>
         createPasswordResetConfirmAction(
           () =>
-            fetch('/auth/confirm', {
-              // TODO: change it to /backend/auth
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: JSON.stringify({ ...values, confirmPassword: undefined })
-            }),
+            fetch(
+              `${
+                process.env.NODE_ENV === 'production' ? '/backend' : ''
+              }/auth/confirm`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json; charset=utf-8',
+                  Accept: 'application/json'
+                },
+                mode: 'same-origin',
+                credentials: 'same-origin',
+                body: JSON.stringify({ ...values, confirmPassword: undefined })
+              }
+            ),
           values,
           () => {
             setTimeout(() => window.location.replace('/'), 3000);

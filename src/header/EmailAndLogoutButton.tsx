@@ -68,12 +68,16 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
       submitLogoutAction: () =>
         createUserLogoutAction(
           () =>
-            fetch('/auth/logout', {
-              // TODO: change it to /backend/auth
-              method: 'POST',
-              mode: 'same-origin',
-              credentials: 'same-origin'
-            }),
+            fetch(
+              `${
+                process.env.NODE_ENV === 'production' ? '/backend' : ''
+              }/auth/logout`,
+              {
+                method: 'POST',
+                mode: 'same-origin',
+                credentials: 'same-origin'
+              }
+            ),
           null,
           dispatch => {
             dispatch({

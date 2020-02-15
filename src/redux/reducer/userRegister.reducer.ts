@@ -1,5 +1,5 @@
 import { UserRegisterAction } from '../action/connective.action';
-import { UserRegister } from '../type/userRegister.type';
+import UserRegister from '../type/userRegister.type';
 
 const initialState: UserRegister = {
   connectStatus: { type: 'INITIAL' },

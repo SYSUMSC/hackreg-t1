@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,7 +8,7 @@ import microsoft from './microsoft.png';
 import whatIsHackathon from './what_is_hackathon.png';
 
 // TODO: need documentions!
-const DescriptionPage: FunctionComponent = () => (
+const DescriptionPage: FC = () => (
   <>
     <Container className="header-container position-relative" fluid={true}>
       <Row className="header-content-row position-absolute text-white">

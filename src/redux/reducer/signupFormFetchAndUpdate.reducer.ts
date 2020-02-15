@@ -2,7 +2,7 @@ import {
   SignupFormFetchAction,
   SignupFormUpdateAction
 } from '../action/connective.action';
-import { SignupFormFetchAndUpdate } from '../type/signupForm.type';
+import SignupFormFetchAndUpdate from '../type/signupForm.type';
 
 const initialState: SignupFormFetchAndUpdate = {
   fetchStatus: { type: 'INITIAL' },

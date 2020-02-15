@@ -1,5 +1,5 @@
 import { SubmitWorkAction } from '../action/connective.action';
-import { SubmitWork } from '../type/submitWork.type';
+import SubmitWork from '../type/submitWork.type';
 
 const initialState: SubmitWork = {
   connectStatus: { type: 'INITIAL' },

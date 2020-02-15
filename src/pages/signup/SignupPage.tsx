@@ -43,10 +43,6 @@ const SignupPageContent: FC<Props> = props => {
     handleSubmit,
     reset
   } = props;
-  const submitting = updateStatus.type === 'CONNECTING';
-  const updateErrorMsg =
-    updateStatus.type === 'ERRORED' ? updateStatus.message : null;
-  const updateSuccess = updateStatus.type === 'SUCCESS';
   useEffect(() => {
     if (loggedIn) {
       submitFetchAction();
@@ -82,8 +78,14 @@ const SignupPageContent: FC<Props> = props => {
       <Row>
         <Col>
           <SubmitButton
-            submitting={submitting}
-            message={updateErrorMsg ?? updateSuccess ? '提交成功' : null}
+            submitting={updateStatus.type === 'CONNECTING'}
+            message={
+              updateStatus.type === 'ERRORED'
+                ? updateStatus.message
+                : updateStatus.type === 'SUCCESS'
+                ? '提交成功'
+                : null
+            }
           />
         </Col>
       </Row>
@@ -91,17 +93,26 @@ const SignupPageContent: FC<Props> = props => {
         <Col sm={4} as={Container} fluid={true}>
           <Row>
             <Col>
-              <ConfirmSignupCheckbox submitting={submitting} {...props} />
+              <ConfirmSignupCheckbox
+                submitting={updateStatus.type === 'CONNECTING'}
+                {...props}
+              />
             </Col>
           </Row>
           <Row>
             <Col>
-              <TeamInfoContent submitting={submitting} {...props} />
+              <TeamInfoContent
+                submitting={updateStatus.type === 'CONNECTING'}
+                {...props}
+              />
             </Col>
           </Row>
         </Col>
         <Col sm={8}>
-          <MemberInfo submitting={submitting} {...props} />
+          <MemberInfo
+            submitting={updateStatus.type === 'CONNECTING'}
+            {...props}
+          />
         </Col>
       </Row>
     </Container>
@@ -120,16 +131,20 @@ const mapDispatchToProps = (
     dispatch(
       createSignupFormFetchAction(
         () =>
-          fetch('/signup/fetch', {
-            // TODO: change it to /backend/signup
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              Accept: 'application/json'
-            },
-            mode: 'same-origin',
-            credentials: 'same-origin'
-          }),
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/signup/fetch`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin'
+            }
+          ),
         null
       )
     ),
@@ -137,17 +152,21 @@ const mapDispatchToProps = (
     dispatch(
       createSignupFormUpdateAction(
         () =>
-          fetch(`/signup/update`, {
-            // TODO: change it to /backend/signup
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              Accept: 'application/json'
-            },
-            mode: 'same-origin',
-            credentials: 'same-origin',
-            body: JSON.stringify(values)
-          }),
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/signup/update`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: JSON.stringify(values)
+            }
+          ),
         values
       )
     ),

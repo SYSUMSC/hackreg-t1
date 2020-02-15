@@ -1,5 +1,5 @@
 import { PasswordResetConfirmAction } from '../action/connective.action';
-import { PasswordResetConfirm } from '../type/passwordResetConfirm.type';
+import PasswordResetConfirm from '../type/passwordResetConfirm.type';
 
 const initialState: PasswordResetConfirm = {
   connectStatus: { type: 'INITIAL' },

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import Footer from './footer/Footer';
 import Header from './header/Header';
@@ -23,7 +23,7 @@ const localDataSaver = () => {
 
 store.subscribe(localDataSaver);
 
-const App: FunctionComponent = () => (
+const App: FC = () => (
   <Provider store={store}>
     <HashRouter>
       <Switch>

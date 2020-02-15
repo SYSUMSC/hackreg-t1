@@ -46,17 +46,17 @@ const LoginFormContent: FC<Props> = ({
   // FIXME: https://github.com/react-bootstrap/react-bootstrap/issues/4706
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const errorMsgTarget = useRef<any>(null);
-  const submitting = connectStatus.type === 'CONNECTING';
-  const errorMsg =
-    connectStatus.type === 'ERRORED' ? connectStatus.message : null;
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="email">
         <Form.Label>邮箱地址</Form.Label>
         <Form.Control
           type="email"
-          isInvalid={!!touched.email && (!!errors.email || !!errorMsg)}
-          disabled={submitting}
+          isInvalid={
+            !!touched.email &&
+            (!!errors.email || connectStatus.type === 'ERRORED')
+          }
+          disabled={connectStatus.type === 'CONNECTING'}
           maxLength={30}
           {...getFieldProps('email')}
         />
@@ -65,9 +65,12 @@ const LoginFormContent: FC<Props> = ({
         <Form.Label>密码</Form.Label>
         <Form.Control
           type="password"
-          isInvalid={!!touched.password && (!!errors.password || !!errorMsg)}
+          isInvalid={
+            !!touched.password &&
+            (!!errors.password || connectStatus.type === 'ERRORED')
+          }
           maxLength={30}
-          disabled={submitting}
+          disabled={connectStatus.type === 'CONNECTING'}
           {...getFieldProps('password')}
         />
       </Form.Group>
@@ -85,20 +88,22 @@ const LoginFormContent: FC<Props> = ({
         variant="outline-primary"
         className="float-right"
         ref={errorMsgTarget}
-        disabled={submitting}
+        disabled={connectStatus.type === 'CONNECTING'}
       >
-        {submitting ? (
+        {connectStatus.type === 'CONNECTING' ? (
           <Spinner as="span" animation="border" size="sm" />
         ) : (
           '登录'
         )}
       </Button>
       <Overlay
-        show={!!errorMsg && !submitting}
+        show={connectStatus.type === 'ERRORED'}
         target={errorMsgTarget.current}
         placement="top"
       >
-        <Tooltip id="loginFormErrorMsg">{errorMsg}</Tooltip>
+        <Tooltip id="loginFormErrorMsg">
+          {connectStatus.type === 'ERRORED' ? connectStatus.message : null}
+        </Tooltip>
       </Overlay>
     </Form>
   );
@@ -119,17 +124,21 @@ const mapDispatchToProps = (
     dispatch(
       createUserLoginAction(
         () =>
-          fetch('/auth/login', {
-            // TODO: change it to /backend/auth
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              Accept: 'application/json'
-            },
-            mode: 'same-origin',
-            credentials: 'same-origin',
-            body: JSON.stringify(values)
-          }),
+          fetch(
+            `${
+              process.env.NODE_ENV === 'production' ? '/backend' : ''
+            }/auth/login`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Accept: 'application/json'
+              },
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: JSON.stringify(values)
+            }
+          ),
         values,
         dispatch => {
           dispatch({

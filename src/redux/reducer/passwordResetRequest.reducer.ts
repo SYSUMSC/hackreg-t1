@@ -1,5 +1,5 @@
 import { PasswordResetRequestAction } from '../action/connective.action';
-import { PasswordResetRequest } from '../type/passwordResetRequest.type';
+import PasswordResetRequest from '../type/passwordResetRequest.type';
 
 const initialState: PasswordResetRequest = {
   connectStatus: { type: 'INITIAL' },

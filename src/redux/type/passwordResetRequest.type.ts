@@ -1,6 +1,6 @@
 import { ConnectStatus } from './shared';
 
-export interface PasswordResetRequest {
+export default interface PasswordResetRequest {
   readonly connectStatus: ConnectStatus;
   readonly modalShown: boolean;
   readonly form: Readonly<{

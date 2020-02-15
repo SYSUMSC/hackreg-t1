@@ -1,5 +1,5 @@
 import { LocalDataAction } from '../action/localData.action';
-import { LocalData } from '../type/localData.type';
+import LocalData from '../type/localData.type';
 
 function resolveLocalData(): LocalData | null {
   const item = localStorage.getItem('localData');

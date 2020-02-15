@@ -6,6 +6,7 @@ import { SignupFormData } from '../../redux/type/signupForm.type';
 type ConfirmSignupCheckboxProps = {
   submitting: boolean;
 } & FormikProps<SignupFormData>;
+
 const ConfirmSignupCheckbox: FC<ConfirmSignupCheckboxProps> = ({
   submitting,
   getFieldProps,

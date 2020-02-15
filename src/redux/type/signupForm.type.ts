@@ -27,7 +27,7 @@ export type SignupFormData = {
   form: SignupFormValues;
 };
 
-export interface SignupFormFetchAndUpdate {
+export default interface SignupFormFetchAndUpdate {
   readonly fetchStatus: ConnectStatus;
   readonly updateStatus: ConnectStatus;
   readonly data: Readonly<SignupFormData> | null;

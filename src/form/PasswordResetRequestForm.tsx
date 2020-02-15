@@ -37,13 +37,9 @@ const PasswordResetRequestFormContent: FC<Props> = ({
   // FIXME: https://github.com/react-bootstrap/react-bootstrap/issues/4706
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const errorMsgTarget = useRef<any>(null);
-  const submitting = connectStatus.type === 'CONNECTING';
-  const success = connectStatus.type === 'SUCCESS';
-  const errorMsg =
-    connectStatus.type === 'ERRORED' ? connectStatus.message : null;
   return (
     <Form onSubmit={handleSubmit}>
-      {!success ? null : (
+      {connectStatus.type !== 'SUCCESS' ? null : (
         <Alert variant="success">
           重置密码的邮件已发送，请注意查收。若超过五分钟未收到，请重试。
         </Alert>
@@ -52,8 +48,14 @@ const PasswordResetRequestFormContent: FC<Props> = ({
         <Form.Label>邮箱地址</Form.Label>
         <Form.Control
           type="email"
-          isInvalid={!!touched.email && (!!errors.email || !!errorMsg)}
-          disabled={submitting || success}
+          isInvalid={
+            !!touched.email &&
+            (!!errors.email || connectStatus.type === 'ERRORED')
+          }
+          disabled={
+            connectStatus.type === 'CONNECTING' ||
+            connectStatus.type === 'SUCCESS'
+          }
           maxLength={30}
           {...getFieldProps('email')}
         />
@@ -66,16 +68,25 @@ const PasswordResetRequestFormContent: FC<Props> = ({
         variant="outline-primary"
         className="float-right"
         ref={errorMsgTarget}
-        disabled={submitting || success}
+        disabled={
+          connectStatus.type === 'CONNECTING' ||
+          connectStatus.type === 'SUCCESS'
+        }
       >
-        {submitting ? <Spinner animation="border" size="sm" /> : '发送验证邮件'}
+        {connectStatus.type === 'CONNECTING' ? (
+          <Spinner animation="border" size="sm" />
+        ) : (
+          '发送验证邮件'
+        )}
       </Button>
       <Overlay
-        show={!!errorMsg && !submitting}
+        show={connectStatus.type === 'ERRORED'}
         target={errorMsgTarget.current}
         placement="top"
       >
-        <Tooltip id="passwordResetRequestFormErrorMsg">{errorMsg}</Tooltip>
+        <Tooltip id="passwordResetRequestFormErrorMsg">
+          {connectStatus.type === 'ERRORED' ? connectStatus.message : null}
+        </Tooltip>
       </Overlay>
     </Form>
   );
@@ -91,17 +102,21 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
       submitFormAction: (values: PasswordResetRequestFormValues) =>
         createPasswordResetRequestAction(
           () =>
-            fetch('/auth/reset', {
-              // TODO: change it to /backend/auth
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: JSON.stringify(values)
-            }),
+            fetch(
+              `${
+                process.env.NODE_ENV === 'production' ? '/backend' : ''
+              }/auth/reset`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json; charset=utf-8',
+                  Accept: 'application/json'
+                },
+                mode: 'same-origin',
+                credentials: 'same-origin',
+                body: JSON.stringify(values)
+              }
+            ),
           values
         )
     },

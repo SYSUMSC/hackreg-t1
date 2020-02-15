@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import './MainPage.css';
 
-const MainPage: FunctionComponent = () => (
+const MainPage: FC = () => (
   <Carousel className="mainpage-carousel" controls={false}>
     <Carousel.Item className="slide-container slide-one">
       <Carousel.Caption>
