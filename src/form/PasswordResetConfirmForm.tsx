@@ -140,21 +140,16 @@ const mapDispatchToProps = (
     dispatch(
       createPasswordResetConfirmAction(
         () =>
-          fetch(
-            `${
-              process.env.NODE_ENV === 'production' ? '/backend' : ''
-            }/auth/confirm`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: JSON.stringify({ ...values, confirmPassword: undefined })
-            }
-          ),
+          fetch('/backend/auth/confirm', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            mode: 'same-origin',
+            credentials: 'same-origin',
+            body: JSON.stringify({ ...values, confirmPassword: undefined })
+          }),
         values,
         () => {
           setTimeout(() => window.location.replace('/'), 3000);

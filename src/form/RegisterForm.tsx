@@ -113,21 +113,16 @@ const mapDispatchToProps = (
     dispatch(
       createUserRegisterAction(
         () =>
-          fetch(
-            `${
-              process.env.NODE_ENV === 'production' ? '/backend' : ''
-            }/auth/register`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: JSON.stringify(values)
-            }
-          ),
+          fetch('/backend/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            mode: 'same-origin',
+            credentials: 'same-origin',
+            body: JSON.stringify(values)
+          }),
         values,
         dispatch => {
           dispatch({

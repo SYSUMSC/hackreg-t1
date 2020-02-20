@@ -93,17 +93,12 @@ const mapDispatchToProps = (
       dispatch(
         createSubmitWorkAction(
           () =>
-            fetch(
-              `${
-                process.env.NODE_ENV === 'production' ? '/backend' : ''
-              }/submit`,
-              {
-                method: 'POST',
-                mode: 'same-origin',
-                credentials: 'same-origin',
-                body: data
-              }
-            ),
+            fetch('/backend/submit', {
+              method: 'POST',
+              mode: 'same-origin',
+              credentials: 'same-origin',
+              body: data
+            }),
           null
         )
       );

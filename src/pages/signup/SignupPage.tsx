@@ -131,20 +131,15 @@ const mapDispatchToProps = (
     dispatch(
       createSignupFormFetchAction(
         () =>
-          fetch(
-            `${
-              process.env.NODE_ENV === 'production' ? '/backend' : ''
-            }/signup/fetch`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin'
-            }
-          ),
+          fetch('/backend/signup/fetch', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            mode: 'same-origin',
+            credentials: 'same-origin'
+          }),
         null
       )
     ),
@@ -152,21 +147,16 @@ const mapDispatchToProps = (
     dispatch(
       createSignupFormUpdateAction(
         () =>
-          fetch(
-            `${
-              process.env.NODE_ENV === 'production' ? '/backend' : ''
-            }/signup/update`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                Accept: 'application/json'
-              },
-              mode: 'same-origin',
-              credentials: 'same-origin',
-              body: JSON.stringify(values)
-            }
-          ),
+          fetch('/backend/signup/update', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              Accept: 'application/json'
+            },
+            mode: 'same-origin',
+            credentials: 'same-origin',
+            body: JSON.stringify(values)
+          }),
         values
       )
     ),
