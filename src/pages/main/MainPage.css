@@ -1,19 +1,19 @@
 .mainpage-carousel {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
 .slide-container {
-    background-position: center;
-    background-attachment: local;
-    background-repeat: no-repeat;
-    /* 70px is the height of header */
-    height: calc(100vh - 70px);
+  background-position: center;
+  background-attachment: local;
+  background-repeat: no-repeat;
+  /* 70px is the height of header */
+  height: calc(100vh - 70px);
 }
 
 .slide-one {
-    background-image: url(./slide1.png);
+  background-image: url(./slide1.png);
 }
 
 .slide-two {
-    background-image: url(./slide2.png);
+  background-image: url(./slide2.png);
 }

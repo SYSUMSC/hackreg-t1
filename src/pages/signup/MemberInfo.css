@@ -1,11 +1,11 @@
 .card-add-member {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .card-add-member:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .member-button-container {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }

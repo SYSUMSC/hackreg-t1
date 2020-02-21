@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.cnpmjs.org/css?family=Lato:400,700,400italic");
+@import url('https://fonts.googleapis.cnpmjs.org/css?family=Lato:400,700,400italic');
 .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .navbar-dark .navbar-text {
-    color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .navbar-dark .navbar-text a {
-    color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }

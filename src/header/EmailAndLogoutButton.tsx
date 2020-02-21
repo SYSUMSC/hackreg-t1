@@ -33,7 +33,7 @@ const EmailAndLogoutButtonContent: FC<Props> = ({
   return (
     <>
       {email}，
-      <span ref={target} className={`logout`} onClick={submitLogoutAction}>
+      <span ref={target} className="logout" onClick={submitLogoutAction}>
         {connecting ? (
           <Spinner as="span" animation="border" size="sm" />
         ) : (
