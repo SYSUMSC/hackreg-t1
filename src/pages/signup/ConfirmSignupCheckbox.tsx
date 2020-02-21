@@ -13,7 +13,6 @@ const ConfirmSignupCheckbox: FC<ConfirmSignupCheckboxProps> = ({
   values
 }) => (
   <Form.Group id="confirmed">
-    <h4>确认报名</h4>
     <Form.Check
       type="checkbox"
       disabled={submitting}

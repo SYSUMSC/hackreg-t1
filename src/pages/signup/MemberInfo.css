@@ -5,3 +5,7 @@
 .card-add-member:hover {
     text-decoration: underline;
 }
+
+.member-button-container {
+    margin-bottom: 1rem;
+}

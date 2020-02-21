@@ -6,6 +6,7 @@
 ![pic1](https://raw.githubusercontent.com/SYSUMSC/hackreg-t1/master/img/1.png)
 ![pic2](https://raw.githubusercontent.com/SYSUMSC/hackreg-t1/master/img/2.png)
 ![pic3](https://raw.githubusercontent.com/SYSUMSC/hackreg-t1/master/img/3.png)
+![pic4](https://raw.githubusercontent.com/SYSUMSC/hackreg-t1/master/img/4.png)
 
 ## ⚙️ Technology Stack
 - Redux

@@ -33,26 +33,16 @@ const EmailAndLogoutButtonContent: FC<Props> = ({
   return (
     <>
       {email}，
-      {connecting ? (
-        <Spinner as="span" animation="border" size="sm" />
-      ) : (
-        <>
-          <span
-            ref={target}
-            className={`logout${errorMsg ? ' text-danger' : ''}`}
-            onClick={submitLogoutAction}
-          >
-            登出
-          </span>
-          <Overlay
-            target={target.current!}
-            show={!!errorMsg}
-            placement="bottom"
-          >
-            <Tooltip id="logoutErroredMsg">{errorMsg}</Tooltip>
-          </Overlay>
-        </>
-      )}
+      <span ref={target} className={`logout`} onClick={submitLogoutAction}>
+        {connecting ? (
+          <Spinner as="span" animation="border" size="sm" />
+        ) : (
+          '登出'
+        )}
+      </span>
+      <Overlay target={target.current!} show={!!errorMsg} placement="bottom">
+        <Tooltip id="logoutErroredMsg">{errorMsg}</Tooltip>
+      </Overlay>
     </>
   );
 };

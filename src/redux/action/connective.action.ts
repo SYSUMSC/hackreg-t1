@@ -40,7 +40,13 @@ const createConnectiveAction = <State extends object | null = null>(
         console.error(error);
       }
     } else {
-      throw new Error(JSON.parse(data).message);
+      let error;
+      try {
+        error = JSON.parse(data).message;
+      } catch {
+        error = '网络异常，请重试';
+      }
+      throw new Error(error);
     }
   } catch (error) {
     dispatch({

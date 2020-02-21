@@ -28,7 +28,7 @@ const SubmitWorkFormContent: FC<Props> = ({ connectStatus, handleSubmit }) => {
   return (
     <Form>
       <Alert variant="info">
-        只有在比赛期间才能提交作品；请将作品打包为zip压缩包再上传。
+        比赛期间可以多次提交作品，以最后一次提交为准。请将作品打包为zip压缩包再上传。
       </Alert>
       <input
         type="file"
@@ -58,7 +58,9 @@ const SubmitWorkFormContent: FC<Props> = ({ connectStatus, handleSubmit }) => {
         )}
       </Button>
       <Overlay
-        show={connectStatus.type === 'ERRORED'}
+        show={
+          connectStatus.type === 'ERRORED' || connectStatus.type === 'SUCCESS'
+        }
         target={msgTarget.current}
         placement="top"
       >

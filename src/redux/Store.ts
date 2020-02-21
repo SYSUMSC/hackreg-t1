@@ -5,7 +5,7 @@ import passwordResetRequest from './reducer/passwordResetRequest.reducer';
 import userLogin from './reducer/userLogin.reducer';
 import userLogout from './reducer/userLogout.reducer';
 import userRegister from './reducer/userRegister.reducer';
-import signupFormFetchAndUpdate from './reducer/signupFormFetchAndUpdate.reducer';
+import signupForm from './reducer/signupForm.reducer';
 import submitWork from './reducer/submitWork.reducer';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   userLogin,
   userRegister,
   userLogout,
-  signupFormFetchAndUpdate,
+  signupForm,
   submitWork
 });
 

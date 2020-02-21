@@ -22,11 +22,7 @@ const SubmitButton: FC<SubmitButtonProps> = ({ submitting, message }) => {
           ref={target}
           disabled={submitting}
         >
-          {submitting ? (
-            <Spinner animation="border" size="sm" />
-          ) : (
-            '提交表单至服务器'
-          )}
+          {submitting ? <Spinner animation="border" size="sm" /> : '提交表单'}
         </Button>
       </ButtonGroup>
       <Overlay

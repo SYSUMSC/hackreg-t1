@@ -23,13 +23,17 @@ import SubmitButton from './SubmitButton';
 import LoadingSpinnerContent from './LoadingSpinnerContent';
 import { SignupFormData } from '../../redux/type/signupForm.type';
 import fetch from 'cross-fetch';
+import FormGroup from 'react-bootstrap/FormGroup';
 
-type StateProps = { loggedIn: boolean } & StateType['signupFormFetchAndUpdate'];
+type StateProps = { loggedIn: boolean } & StateType['signupForm'];
 
 type DispatchProps = {
   submitFetchAction: () => void;
   submitUpdateAction: (values: SignupFormData) => void;
   reset: () => void;
+  setOneAsCaptain: (index: number) => void;
+  removeOne: (index: number) => void;
+  addMember: (isCaptain: boolean) => void;
 };
 
 type Props = FormikProps<SignupFormData> & DispatchProps & StateProps;
@@ -76,27 +80,29 @@ const SignupPageContent: FC<Props> = props => {
         </Col>
       </Row>
       <Row>
-        <Col>
-          <SubmitButton
-            submitting={updateStatus.type === 'CONNECTING'}
-            message={
-              updateStatus.type === 'ERRORED'
-                ? updateStatus.message
-                : updateStatus.type === 'SUCCESS'
-                ? '提交成功'
-                : null
-            }
-          />
-        </Col>
-      </Row>
-      <Row>
         <Col sm={4} as={Container} fluid={true}>
           <Row>
             <Col>
+              <h4>确认与提交</h4>
               <ConfirmSignupCheckbox
                 submitting={updateStatus.type === 'CONNECTING'}
                 {...props}
               />
+              <FormGroup>
+                <SubmitButton
+                  submitting={updateStatus.type === 'CONNECTING'}
+                  message={
+                    updateStatus.type === 'ERRORED'
+                      ? updateStatus.message
+                      : updateStatus.type === 'SUCCESS'
+                      ? '提交成功'
+                      : null
+                  }
+                />
+                <Form.Text className="text-muted font-weight-light">
+                  可以多次提交表单来更新信息。
+                </Form.Text>
+              </FormGroup>
             </Col>
           </Row>
           <Row>
@@ -120,7 +126,7 @@ const SignupPageContent: FC<Props> = props => {
 };
 
 const mapStateToProps = (state: StateType): StateProps => ({
-  ...state.signupFormFetchAndUpdate,
+  ...state.signupForm,
   loggedIn: !!state.localData.email
 });
 
@@ -167,7 +173,19 @@ const mapDispatchToProps = (
     dispatch({
       type: 'SIGNUP_FORM_UPDATE_RESET'
     });
-  }
+  },
+  setOneAsCaptain: (index: number) =>
+    dispatch({ type: 'SIGNUP_FORM_UPDATE_SET_CAPTAIN', index }),
+  removeOne: (index: number) =>
+    dispatch({
+      type: 'SIGNUP_FORM_UPDATE_REMOVE_MEMBER',
+      index
+    }),
+  addMember: (isCaptain: boolean) =>
+    dispatch({
+      type: 'SIGNUP_FORM_UPDATE_ADD_MEMBER',
+      isCaptain
+    })
 });
 
 const signupPageWithFormik = withFormik<

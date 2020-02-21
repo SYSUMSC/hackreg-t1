@@ -1,7 +1,6 @@
 import { FormikErrors, FormikProps, FormikTouched } from 'formik';
 import React, { FC } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
-import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -11,12 +10,17 @@ import {
   MemberFormValues,
   SignupFormData
 } from '../../redux/type/signupForm.type';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 type MemberInfoContentProps = {
   submitting: boolean;
   prefix: string;
-  touchedItems: FormikTouched<MemberFormValues> | undefined;
-  erroredItems: FormikErrors<MemberFormValues> | undefined;
+  touchedItems?: FormikTouched<MemberFormValues>;
+  erroredItems?: FormikErrors<MemberFormValues>;
+  setAsCaptain: () => void;
+  remove: () => void;
+  isCaptain: boolean;
 } & FormikProps<SignupFormData>;
 
 const MemberInfoContent: FC<MemberInfoContentProps> = ({
@@ -25,9 +29,30 @@ const MemberInfoContent: FC<MemberInfoContentProps> = ({
   submitting,
   prefix,
   touchedItems,
-  erroredItems
+  erroredItems,
+  setAsCaptain,
+  remove,
+  isCaptain
 }) => (
   <>
+    <ButtonGroup className="member-button-container">
+      {isCaptain ? null : (
+        <Button
+          variant="outline-primary"
+          disabled={submitting || values.confirmed}
+          onClick={setAsCaptain}
+        >
+          设为队长
+        </Button>
+      )}
+      <Button
+        variant="outline-danger"
+        disabled={isCaptain || submitting || values.confirmed}
+        onClick={remove}
+      >
+        {isCaptain ? '不能移除队长' : '移除队员'}
+      </Button>
+    </ButtonGroup>
     <Form.Group as={Row} controlId={`${prefix}.name`}>
       <Form.Label column={true} sm={2} className="text-left text-sm-right">
         姓名
@@ -215,34 +240,34 @@ const MemberInfoContent: FC<MemberInfoContentProps> = ({
 type MemberInfoCardProps = {
   submitting: boolean;
   index: number;
+  setAsCaptain: () => void;
+  remove: () => void;
 } & FormikProps<SignupFormData>;
 
 const MemberInfoCard: FC<MemberInfoCardProps> = props => {
   const { index, touched, errors, values } = props;
   const prefix = `form.memberInfo[${index}]`;
-  const touchedItems = touched?.form?.memberInfo
-    ? touched.form.memberInfo[index]
-    : undefined;
-  const erroredItems = errors?.form?.memberInfo
-    ? (errors.form.memberInfo[index] as FormikErrors<MemberFormValues>)
-    : undefined;
+  const touchedItems = touched?.form?.memberInfo?.[index];
+  const erroredItems = errors?.form?.memberInfo?.[index] as
+    | FormikErrors<MemberFormValues>
+    | undefined;
+  const isCaptain = values.form.memberInfo[index].captain;
   return (
     <Card {...(!!erroredItems && !!touchedItems && { border: 'danger' })}>
       <Accordion.Toggle as={Card.Header} eventKey={prefix}>
         {values.form.memberInfo[index].name}&nbsp;&nbsp;
-        <span className="text-muted">
-          {values.form.memberInfo[index].captain ? '队长' : '队员'}
-        </span>
+        <span className="text-muted">{isCaptain ? '队长' : '队员'}</span>
       </Accordion.Toggle>
       <Accordion.Collapse eventKey={prefix}>
         <Card.Body>
-          {index !== 0 ? null : (
-            <Alert variant="light">
-              第一位队员会被视为队长，其他将被视为队员。
-            </Alert>
-          )}
           <MemberInfoContent
-            {...{ prefix, touchedItems, erroredItems, ...props }}
+            {...{
+              prefix,
+              touchedItems,
+              erroredItems,
+              isCaptain,
+              ...props
+            }}
           />
         </Card.Body>
       </Accordion.Collapse>
@@ -253,6 +278,7 @@ const MemberInfoCard: FC<MemberInfoCardProps> = props => {
 type AddMemberCardProps = {
   submitting: boolean;
   noMember: boolean;
+  addMember: (isCaptain: boolean) => void;
 } & FormikProps<SignupFormData>;
 
 const AddMemberCard: FC<AddMemberCardProps> = ({
@@ -261,7 +287,7 @@ const AddMemberCard: FC<AddMemberCardProps> = ({
   values,
   noMember,
   submitting,
-  setValues
+  addMember
 }) => (
   <Card
     key="addMember"
@@ -273,21 +299,7 @@ const AddMemberCard: FC<AddMemberCardProps> = ({
       className="card-add-member"
       onClick={() => {
         if (!submitting && !values.confirmed) {
-          const newValues = { ...values };
-          newValues.form.memberInfo.push({
-            name: '',
-            gender: '0',
-            captain: noMember,
-            email: '',
-            phone: '',
-            size: '0',
-            school: '',
-            education: '0',
-            grade: '',
-            profession: '',
-            experience: ''
-          });
-          setValues(newValues);
+          addMember(noMember);
         }
       }}
     >
@@ -298,10 +310,13 @@ const AddMemberCard: FC<AddMemberCardProps> = ({
 
 type MemberInfoProps = {
   submitting: boolean;
+  setOneAsCaptain: (index: number) => void;
+  removeOne: (index: number) => void;
+  addMember: (isCaptain: boolean) => void;
 } & FormikProps<SignupFormData>;
 
 const MemberInfo: FC<MemberInfoProps> = props => {
-  const { submitting, values } = props;
+  const { submitting, values, setOneAsCaptain, removeOne } = props;
   const memberInfo = values.form.memberInfo;
   return (
     <>
@@ -312,6 +327,8 @@ const MemberInfo: FC<MemberInfoProps> = props => {
             key={index}
             index={index}
             submitting={submitting}
+            setAsCaptain={() => setOneAsCaptain(index)}
+            remove={() => removeOne(index)}
             {...props}
           />
         ))}
@@ -323,6 +340,9 @@ const MemberInfo: FC<MemberInfoProps> = props => {
           />
         )}
       </Accordion>
+      <Form.Text className="text-muted font-weight-light">
+        每个队伍人数在1~6之间，并且必须有一名队长。
+      </Form.Text>
     </>
   );
 };
