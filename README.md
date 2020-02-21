@@ -9,6 +9,7 @@
 
 ## ⚙️ Technology Stack
 - Redux
+- Bootstrap
 - React
 - TypeScript
 
