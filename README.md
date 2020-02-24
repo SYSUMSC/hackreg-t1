@@ -18,14 +18,13 @@
 
 #### 🛠 Setting up local development environment
 1. Install React DevTools and Redux DevTools for your web browser.
-2. Install create-react-app globally: `npm install -g create-react-app`.
-3. Run these commands to fetch the copy of the project and install the dependent packages using npm.
+2. Run these commands to fetch the copy of the project and install the dependent packages using npm.
     ```
     git clone https://github.com/SYSUMSC/hackreg-t1.git
     cd hackreg-t1
     npm install
     ```
-4. Run these commands to fire up the development build!
+3. Run these commands to fire up the development build!
     ```
     npm start
     ```
