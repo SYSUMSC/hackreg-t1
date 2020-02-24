@@ -24,10 +24,7 @@
     cd hackreg-t1
     npm install
     ```
-3. Run these commands to fire up the development build!
-    ```
-    npm start
-    ```
+3. Run `npm start` to fire up the development build!
 
 #### 🛠 Making a production build and run it
 1. Run `npm run build`.
