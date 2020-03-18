@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import './Footer.css';
 
-const Footer: FunctionComponent = () => (
+const Footer: FC = () => (
   <Container
     as={Navbar}
     className="footer-container"
